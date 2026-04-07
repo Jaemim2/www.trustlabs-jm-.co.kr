@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="TRUSTORY LABS — Anti-fraud communication · Financial literacy · TrustTech media. Safer Money, Smarter Decisions."/>
+<title>TRUSTORY LABS — Safer Money, Smarter Decisions</title>
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESIGN TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root{
+  --f:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --blue:#3182f6;--blue-d:#1b64da;--blue-l:#ebf3ff;--blue-ll:#f4f9ff;
+  --ink:#191f28;--ink2:#3c4453;--muted:#6b7684;--muted2:#9aa3b0;
+  --line:#e6edf5;--line2:#f0f5fb;--bg:#f6f9fc;--bg2:#f0f4f9;--white:#fff;
+  --green:#00b96b;--amber:#f59e0b;--red:#f04452;
+  --r:14px;--r-lg:20px;--r-xl:28px;--r-2xl:36px;
+  --sh:0 2px 12px rgba(0,0,0,.06);--sh-md:0 8px 28px rgba(0,0,0,.09);--sh-lg:0 16px 56px rgba(0,0,0,.13);
+  --nh:66px;--max:1120px;
+}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--f);color:var(--ink);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--f);cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--f)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT UTILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.W{width:min(var(--max),calc(100% - 48px));margin:0 auto}
+.Ws{width:min(780px,calc(100% - 48px));margin:0 auto}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.page{display:none}.page.on{display:block;animation:pgIn .32s cubic-bezier(.22,.68,0,1.1) both}
+@keyframes pgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NAV
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:var(--nh);
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line)}
+.nrow{display:flex;align-items:center;justify-content:space-between;height:100%;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.bmark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,#111827,var(--blue));
+  display:grid;place-items:center;box-shadow:0 4px 14px rgba(49,130,246,.32);flex-shrink:0}
+.bmark svg{width:22px;height:22px}
+.bnm{font-size:15px;font-weight:800;letter-spacing:-.035em;color:var(--ink)}
+.bsb{font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-top:1px}
+.nlk{display:flex;gap:2px}
+.nlk button{font-size:13px;font-weight:500;color:var(--muted);padding:7px 13px;border-radius:10px;transition:.15s}
+.nlk button:hover{background:var(--bg);color:var(--ink)}
+.nlk button.on{color:var(--blue);background:var(--blue-l);font-weight:600}
+.nend{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lsw{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:3px}
+.lsw button{font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:100px;color:var(--muted);transition:.15s}
+.lsw button.on{background:var(--ink);color:#fff}
+.ncta{background:var(--blue);color:#fff;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;
+  transition:.15s;box-shadow:0 3px 12px rgba(49,130,246,.32);white-space:nowrap}
+.ncta:hover{background:var(--blue-d);transform:translateY(-1px)}
+/* Subnav */
+#sn{position:fixed;top:var(--nh);left:0;right:0;z-index:899;height:40px;
+  background:rgba(246,249,252,.96);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:none}
+#sn.show{display:flex;align-items:center}
+.snw{display:flex;align-items:center;gap:1px;height:100%;
+  width:min(var(--max),calc(100% - 48px));margin:0 auto;overflow-x:auto;scrollbar-width:none}
+.snw::-webkit-scrollbar{display:none}
+.snb{font-size:12.5px;font-weight:500;color:var(--muted);padding:5px 13px;border-radius:8px;white-space:nowrap;transition:.15s}
+.snb:hover{color:var(--ink);background:rgba(0,0,0,.05)}
+.snb.on{color:var(--blue);font-weight:700}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SHARED TYPOGRAPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ey{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--blue);display:block;margin-bottom:12px}
+.eyW{color:rgba(130,189,255,.75)}
+.hd1{font-size:clamp(28px,3.6vw,44px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.hd2{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-.035em;line-height:1.12}
+.hd3{font-size:clamp(18px,2.2vw,24px);font-weight:700;letter-spacing:-.025em}
+.sub{font-size:16px;color:var(--muted);line-height:1.85;max-width:580px}
+.subW{color:rgba(255,255,255,.5)}
+.hd{margin-bottom:48px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BUTTONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.bp{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:#fff;
+  padding:12px 22px;border-radius:12px;font-size:14px;font-weight:700;transition:.16s;
+  box-shadow:0 4px 14px rgba(49,130,246,.32);letter-spacing:-.01em}
+.bp:hover{background:var(--blue-d);transform:translateY(-1px)}
+.bs{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);color:#fff;
+  padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;
+  border:1.5px solid rgba(255,255,255,.2);transition:.16s}
+.bs:hover{background:rgba(255,255,255,.14)}
+.bd{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;
+  padding:12px 22px;border-radius:12px;font-size:14px;font-weight:700;transition:.16s}
+.bd:hover{background:var(--blue)}
+.bo{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--blue);color:var(--blue);
+  padding:11px 20px;border-radius:12px;font-size:14px;font-weight:700;transition:.16s}
+.bo:hover{background:var(--blue-l)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TAGS / PILLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.tg{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:100px}
+.tb{background:var(--blue-l);color:var(--blue-d)}
+.tg2{background:#e6faf0;color:#006a3e}
+.ta{background:#fff8e7;color:#915500}
+.td{background:var(--bg);color:var(--ink2);border:1px solid var(--line)}
+.tw{background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.22)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CARDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:28px;box-shadow:var(--sh);transition:.2s}
+.card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.cdk{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r-xl);padding:28px;transition:.2s}
+.cdk:hover{background:rgba(255,255,255,.1)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec{padding:80px 0}.secSm{padding:56px 0}
+.secD{background:#0c1321;padding:80px 0}
+.secB{background:var(--bg);padding:80px 0}
+.dvd{border:none;border-top:1px solid var(--line)}
+.dvdD{border:none;border-top:1px solid rgba(255,255,255,.08)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HOME HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hhero{background:linear-gradient(160deg,#0c1321 0%,#101b35 100%);
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden}
+.hhero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 70% 30%,rgba(49,130,246,.18),transparent 60%),
+    radial-gradient(ellipse 40% 50% at 8% 70%,rgba(49,130,246,.07),transparent 50%)}
+.hhi{position:relative;z-index:1;padding:calc(var(--nh) + 56px) 0 64px}
+.hgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center}
+/* hero left */
+.hbadge{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(49,130,246,.16);border:1px solid rgba(49,130,246,.3);
+  border-radius:100px;padding:6px 14px;margin-bottom:20px}
+.hbd{width:6px;height:6px;border-radius:50%;background:#7db8ff;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hbadge span{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#93c5fd}
+.htitle{font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-.04em;
+  line-height:1.13;color:#fff;margin-bottom:18px;white-space:pre-line}
+.htitle em{color:#7db8ff;font-style:normal}
+.hsub{font-size:16px;color:rgba(255,255,255,.5);line-height:1.85;margin-bottom:30px;max-width:460px;white-space:pre-line}
+.hacts{display:flex;flex-wrap:wrap;gap:10px}
+/* hero right */
+.hrc{display:flex;flex-direction:column;gap:11px}
+.hvc{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;padding:20px 24px}
+.hvcv{font-size:30px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:5px}
+.hvcv em{font-size:16px;color:#7db8ff;font-style:normal}
+.hvcl{font-size:12px;color:rgba(255,255,255,.4);line-height:1.55;white-space:pre-line}
+.halert{background:rgba(240,68,82,.1);border:1px solid rgba(240,68,82,.22);
+  border-radius:16px;padding:15px;display:flex;gap:11px}
+.hai{width:24px;height:24px;border-radius:7px;background:rgba(240,68,82,.7);
+  display:grid;place-items:center;font-size:11px;color:#fff;font-weight:800;flex-shrink:0;margin-top:1px}
+.halt strong{display:block;font-size:12px;font-weight:700;color:#fca5a5;margin-bottom:2px}
+.halt p{font-size:11.5px;color:rgba(252,165,165,.65);line-height:1.55}
+/* stats strip */
+.hstrip{background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.07)}
+.hsgrid{display:grid;grid-template-columns:repeat(3,1fr)}
+.hsitem{padding:24px 28px;border-right:1px solid rgba(255,255,255,.06)}
+.hsitem:last-child{border:none}
+.hsv{font-size:30px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:5px}
+.hsv em{color:#7db8ff;font-style:normal;font-size:17px}
+.hsl{font-size:12px;color:rgba(255,255,255,.38);line-height:1.5}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PRODUCT TEASERS (home)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.prow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.pc{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:28px;box-shadow:var(--sh);cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pc:nth-child(1)::before{background:linear-gradient(90deg,#3182f6,#7db8ff)}
+.pc:nth-child(2)::before{background:linear-gradient(90deg,#00b96b,#6ee7b7)}
+.pc:nth-child(3)::before{background:linear-gradient(90deg,#7c3aed,#c4b5fd)}
+.pc:hover{transform:translateY(-4px);box-shadow:var(--sh-md)}
+.pcico{font-size:32px;margin-bottom:14px}
+.pcnm{font-size:17px;font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-bottom:4px}
+.pcsb{font-size:12px;font-weight:600;margin-bottom:10px}
+.pcd{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:14px}
+.pclk{font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:5px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DATA VIZ BARS (mission)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.dbr{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.dbr:last-child{border:none}
+.dbl{font-size:13px;color:rgba(255,255,255,.6);width:210px;flex-shrink:0;line-height:1.4}
+.dbt{flex:1;height:7px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.dbf{height:100%;border-radius:100px;transition:width .8s ease}
+.dbv{font-size:13px;font-weight:800;width:80px;text-align:right;flex-shrink:0}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CURRICULUM (academy)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.clevel{margin-bottom:28px}
+.clhd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.clbdg{background:var(--blue);color:#fff;font-size:10.5px;font-weight:800;
+  padding:4px 12px;border-radius:100px;letter-spacing:.06em}
+.clnm{font-size:15px;font-weight:700;color:var(--ink)}
+.clmods{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.clmod{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;transition:.15s}
+.clmod:hover{border-color:#a5c8ff;box-shadow:var(--sh)}
+.clmn{font-size:10px;font-weight:800;color:var(--blue);letter-spacing:.08em;margin-bottom:4px}
+.clmt{font-size:13px;font-weight:600;color:var(--ink);line-height:1.45}
+.clmd{font-size:11.5px;color:var(--muted);margin-top:4px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STUDIO PACKAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.pkgr{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pkgc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh)}
+.pkgico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;margin-bottom:13px}
+.pkgc h4{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.pkgl{list-style:none;display:grid;gap:6px}
+.pkgl li{font-size:13px;color:var(--muted);display:flex;gap:7px}
+.pkgl li::before{content:'·';color:var(--blue);font-weight:800;flex-shrink:0}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HIRING PROCESS (horizontal stepper)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.stepper{display:flex;align-items:flex-start;position:relative;margin-top:44px}
+.step-line{position:absolute;top:21px;left:7%;right:7%;height:2px;
+  background:linear-gradient(90deg,var(--blue),#7db8ff);z-index:0;border-radius:1px}
+.stepitem{flex:1;text-align:center;position:relative;z-index:1}
+.stepcirc{width:44px;height:44px;border-radius:50%;margin:0 auto 14px;
+  background:var(--blue);color:#fff;display:grid;place-items:center;
+  font-size:13px;font-weight:800;box-shadow:0 4px 14px rgba(49,130,246,.38)}
+.stepcirc.done{background:var(--green);box-shadow:0 4px 14px rgba(0,185,107,.38)}
+.stepnm{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.stepsd{font-size:12px;color:var(--muted);line-height:1.5;padding:0 4px;white-space:pre-line}
+/* step detail cards */
+.pdgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px}
+.pdc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:24px;box-shadow:var(--sh);border-top:3px solid var(--blue)}
+.pdc.done{border-top-color:var(--green)}
+.pdn{font-size:10.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:7px}
+.pdc.done .pdn{color:var(--green)}
+.pdc h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.pdc p{font-size:13.5px;color:var(--muted);line-height:1.75}
+.pdtip{margin-top:13px;background:var(--blue-ll);border:1px solid var(--blue-l);
+  border-radius:10px;padding:11px 14px;font-size:12.5px;color:var(--blue-d);line-height:1.6}
+.pdc.done .pdtip{background:#e6faf0;border-color:#a7f3d0;color:#006a3e}
+/* fair hiring */
+.fairgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fairc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:22px;text-align:center;box-shadow:var(--sh)}
+.fairc .ico{font-size:26px;margin-bottom:10px}
+.fairc h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.fairc p{font-size:12.5px;color:var(--muted);line-height:1.65}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   JOBS PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.jlayout{display:grid;grid-template-columns:240px 1fr;gap:22px;align-items:start}
+.jfpanel{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:22px;position:sticky;top:calc(var(--nh) + 50px);box-shadow:var(--sh)}
+.jft{font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px}
+.jfg{margin-bottom:20px}
+.jfgl{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:9px;
+  letter-spacing:.05em;text-transform:uppercase}
+.jfr{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer}
+.jfr input{accent-color:var(--blue);width:14px;height:14px;cursor:pointer}
+.jfr label{font-size:13.5px;color:var(--ink);cursor:pointer;flex:1}
+.jfc{font-size:11px;background:var(--bg);border-radius:100px;padding:2px 7px;color:var(--muted)}
+.jfrst{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px;
+  font-size:13px;color:var(--muted);background:none;transition:.15s;margin-top:6px}
+.jfrst:hover{background:var(--bg);color:var(--ink)}
+.jhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.jcnt{font-size:14px;color:var(--muted)}
+.jcnt strong{color:var(--ink);font-weight:800}
+.jcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  cursor:pointer;transition:.18s;box-shadow:var(--sh);margin-bottom:10px}
+.jcard:hover{border-color:var(--blue);box-shadow:0 6px 22px rgba(49,130,246,.12);transform:translateY(-1px)}
+.jcdept{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.jctitle{font-size:18px;font-weight:800;letter-spacing:-.025em;color:var(--ink);margin-bottom:10px}
+.jctags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.jcdesc{font-size:13.5px;color:var(--muted);line-height:1.65}
+.jcarr{width:38px;height:38px;border-radius:10px;background:var(--bg);border:1px solid var(--line);
+  display:grid;place-items:center;font-size:15px;color:var(--muted);transition:.16s;flex-shrink:0}
+.jcard:hover .jcarr{background:var(--ink);color:#fff;border-color:var(--ink)}
+.nores{text-align:center;padding:60px 20px;color:var(--muted)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   JOB DETAIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.jdhero{background:#0c1321;padding:calc(var(--nh)+64px) 0 56px;position:relative;overflow:hidden}
+.jdhero::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 55% 80% at 85% 50%,rgba(49,130,246,.16),transparent)}
+.bc{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.38);margin-bottom:16px}
+.bc button{color:rgba(255,255,255,.38);font-size:13px;transition:.15s}
+.bc button:hover{color:#fff}
+.jddept{font-size:10.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:#93c5fd;margin-bottom:10px}
+.jdttl{font-size:clamp(24px,3.8vw,44px);font-weight:800;letter-spacing:-.04em;
+  color:#fff;margin-bottom:18px;position:relative;z-index:1}
+.jdtr{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;position:relative;z-index:1}
+.jdtag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+  color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:6px 16px;border-radius:100px}
+.jdbtn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;
+  padding:12px 26px;border-radius:12px;font-size:15px;font-weight:800;
+  box-shadow:0 4px 16px rgba(49,130,246,.45);transition:.16s;position:relative;z-index:1}
+.jdbtn:hover{background:var(--blue-d);transform:translateY(-1px)}
+.jdbody{background:var(--bg);padding:52px 0 80px}
+.jdlayout{display:grid;grid-template-columns:1fr 290px;gap:36px;align-items:start}
+.jdsec{margin-bottom:36px}
+.jdsec h3{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:15px;
+  padding-bottom:11px;border-bottom:2.5px solid var(--blue-l);letter-spacing:-.02em}
+.jdsec p{font-size:14.5px;color:var(--muted);line-height:1.8}
+.jdul{list-style:none}
+.jdul li{font-size:14.5px;color:var(--ink2);line-height:1.75;padding:9px 0;
+  border-bottom:1px solid var(--line);display:flex;gap:10px}
+.jdul li::before{content:'→';color:var(--blue);font-weight:700;flex-shrink:0;margin-top:2px}
+.jdsb{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:24px;box-shadow:var(--sh);margin-bottom:14px;position:sticky;top:calc(var(--nh)+118px)}
+.jdsb h4{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px}
+.jdr{display:flex;justify-content:space-between;padding:9px 0;
+  border-bottom:1px solid var(--line);font-size:13.5px}
+.jdr:last-child{border:none}
+.jdk{color:var(--muted)}.jdv{font-weight:700;color:var(--ink);text-align:right}
+.jdacard{background:var(--ink);border-radius:var(--r-xl);padding:24px;text-align:center;margin-top:14px}
+.jdacard p{color:rgba(255,255,255,.45);font-size:13px;line-height:1.65;margin-bottom:16px}
+.jdafull{display:block;width:100%;background:var(--blue);color:#fff;padding:13px;
+  border-radius:11px;font-weight:800;font-size:15px;border:none;cursor:pointer;
+  font-family:var(--f);transition:.16s;box-shadow:0 4px 14px rgba(49,130,246,.4)}
+.jdafull:hover{background:var(--blue-d);transform:translateY(-1px)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   APPLY PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.appbody{background:var(--bg);padding:52px 0 80px}
+.applayout{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start}
+.appform{background:#fff;border:1px solid var(--line);border-radius:var(--r-2xl);
+  padding:36px;box-shadow:var(--sh-md)}
+.afsec{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.afsec:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.afst{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px}
+.afsbdg{background:var(--blue-l);color:var(--blue);font-size:11.5px;
+  font-weight:800;padding:3px 10px;border-radius:100px}
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:11px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.fr{color:var(--red);margin-left:2px}
+.fi,.fsel,.fta{width:100%;padding:11px 15px;border:1.5px solid var(--line);border-radius:11px;
+  font-size:14.5px;font-family:var(--f);color:var(--ink);background:#fff;outline:none;transition:.15s}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(49,130,246,.1)}
+.fta{resize:vertical;min-height:110px}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fcheck{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px}
+.fcheck input{accent-color:var(--blue);margin-top:3px;flex-shrink:0;cursor:pointer}
+.fcheck label{font-size:13px;color:var(--muted);line-height:1.6;cursor:pointer}
+.fsub{width:100%;background:var(--blue);color:#fff;padding:14px;border-radius:12px;
+  font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:var(--f);
+  transition:.16s;box-shadow:0 4px 14px rgba(49,130,246,.38);margin-top:6px}
+.fsub:hover{background:var(--blue-d);transform:translateY(-1px)}
+.fsub.sent{background:var(--green);box-shadow:0 4px 14px rgba(0,185,107,.4)}
+.appinfo{position:sticky;top:calc(var(--nh)+80px)}
+.aicard{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:24px;box-shadow:var(--sh);margin-bottom:14px}
+.aicard h4{font-size:11px;font-weight:800;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:15px}
+.air{display:flex;justify-content:space-between;padding:9px 0;
+  border-bottom:1px solid var(--line);font-size:13.5px}
+.air:last-child{border:none}
+.airk{color:var(--muted)}.airv{font-weight:700;color:var(--ink);text-align:right;max-width:160px}
+.ainotice{background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:14px;
+  padding:16px;font-size:12.5px;color:var(--blue-d);line-height:1.65;margin-bottom:14px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CULTURE & BENEFITS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cv4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cvc{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:24px;box-shadow:var(--sh);transition:.2s}
+.cvc:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.cvcn{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--blue);margin-bottom:11px}
+.cvcico{font-size:28px;margin-bottom:13px}
+.cvc h3{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px}
+.cvc p{font-size:13px;color:var(--muted);line-height:1.7}
+.daygrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.dayc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px;display:flex;gap:14px;box-shadow:var(--sh)}
+.dayt{font-size:12.5px;font-weight:800;color:var(--blue);min-width:74px;flex-shrink:0;line-height:1.4}
+.dayh{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.dayp{font-size:13px;color:var(--muted);line-height:1.6}
+.bencat{margin-bottom:56px}
+.bchead{display:flex;align-items:center;gap:13px;padding-bottom:17px;
+  margin-bottom:22px;border-bottom:2px solid var(--line)}
+.bchico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.bcht{font-size:19px;font-weight:800;letter-spacing:-.025em;color:var(--ink)}
+.bchd{font-size:13px;color:var(--muted);margin-top:2px}
+.bigrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bi{background:#fff;border:1px solid var(--line);border-radius:13px;
+  padding:16px 18px;display:flex;align-items:flex-start;gap:10px;box-shadow:var(--sh)}
+.biic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.bit{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.bid{font-size:12px;color:var(--muted);line-height:1.55}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CLIENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ctabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:32px}
+.ctab{background:#fff;border:2px solid var(--line);border-radius:100px;
+  padding:8px 18px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.15s}
+.ctab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.clgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.clc{background:#fff;border:1px solid var(--line);border-radius:var(--r-xl);
+  padding:28px;box-shadow:var(--sh)}
+.clch{display:flex;align-items:center;gap:13px;padding-bottom:17px;
+  margin-bottom:17px;border-bottom:1px solid var(--line)}
+.clico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.clc h3{font-size:17px;font-weight:700;color:var(--ink)}
+.clsub{font-size:12px;color:var(--muted);margin-top:2px}
+.clsvcs{display:grid;gap:7px}
+.clsi{font-size:13.5px;color:var(--muted);display:flex;gap:8px}
+.clsi::before{content:'→';color:var(--blue);font-weight:700;flex-shrink:0}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TIMELINE (about)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.tl{position:relative;padding-left:36px}
+.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;
+  width:2px;background:linear-gradient(to bottom,var(--blue),transparent);border-radius:2px}
+.tlitem{padding:0 0 26px;position:relative}
+.tldot{position:absolute;left:-29px;top:3px;width:16px;height:16px;
+  border-radius:50%;background:var(--blue);border:3px solid #bfdbfe}
+.tlyr{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue);margin-bottom:4px}
+.tlh{font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:5px}
+.tlp{font-size:13.5px;color:var(--muted);line-height:1.7}
+.factgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.factc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:22px;text-align:center;box-shadow:var(--sh)}
+.factv{font-size:26px;font-weight:800;color:var(--blue);margin-bottom:4px;letter-spacing:-.03em}
+.factl{font-size:12.5px;color:var(--muted)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FAQ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.fqi{border-bottom:1px solid var(--line)}.fqi.dk{border-color:rgba(255,255,255,.08)}
+.fqq{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:18px 0;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);
+  width:100%;text-align:left;background:none;font-family:var(--f);transition:color .15s}
+.fqi.dk .fqq{color:#fff}
+.fqq:hover{color:var(--blue)}.fqi.dk .fqq:hover{color:#93c5fd}
+.fqico{width:26px;height:26px;border-radius:8px;background:var(--bg);
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-size:17px;font-weight:300;color:var(--muted);transition:.22s;flex-shrink:0}
+.fqi.dk .fqico{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.45)}
+.fqi.on .fqico{background:var(--blue-l);color:var(--blue);border-color:var(--blue);transform:rotate(45deg)}
+.fqi.dk.on .fqico{background:rgba(49,130,246,.2);color:#93c5fd;border-color:rgba(49,130,246,.35)}
+.fqa{max-height:0;overflow:hidden;transition:max-height .36s cubic-bezier(.4,0,.2,1),padding-bottom .28s}
+.fqi.on .fqa{max-height:280px;padding-bottom:20px}
+.fqa p{font-size:14.5px;color:var(--muted);line-height:1.8}
+.fqi.dk .fqa p{color:rgba(255,255,255,.48)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONTACT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.conlay{display:grid;grid-template-columns:1fr 1.1fr;gap:44px;align-items:start}
+.codet{display:flex;align-items:center;gap:13px;padding:16px 0;border-bottom:1px solid var(--line)}
+.codet:last-child{border:none}
+.coico{width:36px;height:36px;border-radius:9px;background:var(--blue-l);
+  color:var(--blue-d);display:grid;place-items:center;font-size:15px;flex-shrink:0}
+.col{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.cov{font-size:15px;font-weight:600;color:var(--ink)}
+.confw{background:#fff;border:1px solid var(--line);border-radius:var(--r-2xl);
+  padding:36px;box-shadow:var(--sh-md)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESK REPORT MOCKUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.rptmock{background:#0c1321;border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r-xl);padding:32px;position:relative;overflow:hidden}
+.rptmock::after{content:'TRUST\nINSIGHT';position:absolute;top:18px;right:22px;
+  font-size:9px;font-weight:800;letter-spacing:.2em;color:rgba(255,255,255,.06);
+  line-height:1.4;text-align:right;white-space:pre}
+.rptmo{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#7db8ff;margin-bottom:10px}
+.rpttitle{font-size:20px;font-weight:800;color:#fff;margin-bottom:20px;line-height:1.3}
+.rptsecs{display:grid;gap:8px}
+.rptsc{display:flex;align-items:center;gap:12px;padding:9px 14px;
+  background:rgba(255,255,255,.06);border-radius:10px}
+.rsn{font-size:10.5px;font-weight:800;color:#7db8ff;width:24px;flex-shrink:0}
+.rsnm{font-size:13.5px;color:rgba(255,255,255,.72)}
+.rspg{font-size:11px;color:rgba(255,255,255,.28);margin-left:auto;white-space:nowrap}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CAREERS HUB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.chero{background:#0c1321;min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;position:relative;overflow:hidden}
+.chero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 65% 55% at 72% 35%,rgba(49,130,246,.18),transparent),
+    radial-gradient(ellipse 40% 45% at 5% 68%,rgba(49,130,246,.07),transparent)}
+.chi{position:relative;z-index:1;padding:calc(var(--nh)+52px) 0 52px}
+.cqls{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
+.cql{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:20px;cursor:pointer;transition:.18s;text-align:left}
+.cql:hover{background:rgba(49,130,246,.16);border-color:rgba(49,130,246,.35);transform:translateY(-2px)}
+.cqlico{font-size:26px;margin-bottom:11px}
+.cqlt{font-size:15px;font-weight:800;color:#fff;margin-bottom:3px}
+.cqld{font-size:12.5px;color:rgba(255,255,255,.42);margin-bottom:10px}
+.cqla{font-size:13px;color:#7db8ff;font-weight:600}
+.cnums{background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.07)}
+.cnumgrid{display:grid;grid-template-columns:repeat(4,1fr)}
+.cnumi{padding:22px 26px;border-right:1px solid rgba(255,255,255,.06)}
+.cnumi:last-child{border:none}
+.cnumv{font-size:30px;font-weight:800;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:5px}
+.cnumv em{font-size:17px;color:#7db8ff;font-style:normal}
+.cnuml{font-size:12px;color:rgba(255,255,255,.38)}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOOTER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#footer{background:#07090f;padding:52px 0 34px;border-top:1px solid rgba(255,255,255,.06)}
+.ftop{display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px;
+  padding-bottom:34px;border-bottom:1px solid rgba(255,255,255,.06)}
+.ftnm{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.02em}
+.fttg{font-size:12px;color:rgba(255,255,255,.28)}
+.ftcols{display:flex;gap:48px;flex-wrap:wrap}
+.ftcol h5{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.28);margin-bottom:13px}
+.ftcol a{display:block;font-size:13.5px;color:rgba(255,255,255,.42);margin-bottom:8px;
+  cursor:pointer;transition:.15s}
+.ftcol a:hover{color:#fff}
+.ftbot{padding-top:24px}
+.ftcp{font-size:12px;color:rgba(255,255,255,.22)}
+.ftdc{font-size:11.5px;color:rgba(255,255,255,.17);line-height:1.7;margin-top:10px;max-width:640px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SVG VISUAL WRAPPERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.svgbox{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:24px;
+  display:flex;align-items:center;justify-content:center;min-height:200px}
+.svgbox svg{width:100%;height:auto;max-height:240px}
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media(max-width:1000px){
+  .hgrid,.jdlayout,.applayout,.conlay{grid-template-columns:1fr}
+  .jdsb,.appinfo{position:static}
+  .jlayout,.clmods,.pkgr,.cv4,.fairgrid{grid-template-columns:repeat(2,1fr)}
+  .g3,.g4,.prow{grid-template-columns:repeat(2,1fr)}
+  .cqls{grid-template-columns:repeat(2,1fr)}
+  .stepper{flex-wrap:wrap;gap:18px}.step-line{display:none}
+  .stepitem{flex:0 0 calc(33.333% - 13px)}
+  .nlk{display:none}.jfpanel{position:static}
+}
+@media(max-width:640px){
+  .g2,.g3,.g4,.clmods,.pkgr,.cv4,.fairgrid,.bigrid,.daygrid,.pdgrid,.clgrid,.jlayout{grid-template-columns:1fr}
+  .hsgrid,.factgrid,.cnumgrid{grid-template-columns:repeat(2,1fr)}
+  .prow{grid-template-columns:1fr}
+  .stepitem{flex:0 0 calc(50% - 9px)}
+  .frow2{grid-template-columns:1fr}
+  .W,.Ws{width:calc(100% - 28px)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="W nrow">
+    <div class="brand" onclick="go('home')">
+      <div class="bmark">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path d="M12 14c0-4 3.5-7 8-7s8 3 8 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M12 17h16v8c0 5.5-3.5 9-8 9s-8-3.5-8-9v-8z" fill="white"/>
+          <line x1="20" y1="12" x2="20" y2="30" stroke="#3182f6" stroke-width="2.5" stroke-linecap="round"/>
+          <polyline points="16,22 20,17 24,22" stroke="#3182f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="bnm">TRUSTORY LABS</div>
+        <span class="bsb" id="n-sub">Safer Money · Smarter Decisions</span>
+      </div>
+    </div>
+    <nav class="nlk" id="n-lk"></nav>
+    <div class="nend">
+      <div class="lsw">
+        <button id="l-ko" class="on" onclick="setLang('ko')">KO</button>
+        <button id="l-en" onclick="setLang('en')">EN</button>
+      </div>
+      <button class="ncta" id="n-cta" onclick="go('jobs')">Open Roles</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SUBNAV (careers) -->
+<div id="sn"><div class="snw" id="sn-w"></div></div>
+
+<!-- MAIN -->
+<main id="app" style="padding-top:var(--nh)"></main>
+
+<!-- FOOTER -->
+<footer id="footer"></footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════ */
+let L='ko', JOB=null;
+
+/* ═══════════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════════ */
+const KO={
+  navSub:'Safer Money · Smarter Decisions',
+  navCta:'채용공고',
+  nl:[{l:'홈',r:'home'},{l:'소개',r:'about'},{l:'미션',r:'mission'},{l:'서비스',r:'services'},{l:'고객',r:'clients'},{l:'채용',r:'careers'},{l:'문의',r:'contact'}],
+  cs:[{l:'채용 홈',r:'careers'},{l:'조직 문화',r:'culture'},{l:'복지',r:'benefits'},{l:'채용 절차',r:'process'},{l:'채용 공고',r:'jobs'}],
+  jdInfoL:{loc:'위치',type:'고용형태',exp:'경력',sal:'급여',dl:'마감',team:'팀'},
+  jdInfoT:'포지션 정보',jdApplyCard:'이 포지션에 지원하시겠어요?',jdApplyBtn:'지원하기',
+  back:'뒤로',backJobs:'채용공고 목록',
+  applyBefore:'지원 전 체크',reqLabel:'필수 항목',optLabel:'선택 항목',nextLabel:'다음 단계',
+  consentTxt:'개인정보 수집·이용에 동의합니다 (채용 목적, 지원 종료 후 파기)',
+  docConsentTxt:'채용서류 반환·파기 기준을 확인했으며 이에 동의합니다',
+  submitApp:'지원서 제출',submitSent:'접수 완료 ✓ 단계별로 안내드리겠습니다',
+  ft:{
+    tagline:'Safer Money, Smarter Decisions',
+    cols:[
+      {h:'회사',lk:[{l:'소개',r:'about'},{l:'미션',r:'mission'},{l:'서비스',r:'services'},{l:'고객',r:'clients'}]},
+      {h:'채용',lk:[{l:'채용 홈',r:'careers'},{l:'문화',r:'culture'},{l:'복지',r:'benefits'},{l:'채용 절차',r:'process'},{l:'채용 공고',r:'jobs'}]},
+      {h:'연락',lk:[{l:'문의하기',r:'contact'}]}
+    ],
+    copy:'© 2025 TRUSTORY LABS · Seoul, South Korea',
+    disc:'이 웹사이트는 비즈니스 영어실습 수업 팀 프로젝트로 제작되었습니다. TRUSTORY LABS는 가상의 회사 콘셉트이며 인용 통계는 한국자본시장연구원(2025), 한국은행(2024), 경찰청(2025) 공개 자료를 기반으로 합니다.'
+  },
+  home:{
+    badge:'TrustTech 미디어',
+    t1:'금융을 더 안전하게,',t2:'사람을 더 현명하게.',
+    sub:'금융사기 예방 · 디지털 금융이해력 교육 · 공익 캠페인\n대한민국 금융 안전의 언어를 바꾸는 TrustTech 미디어 기업',
+    c1:'회사 알아보기',c2:'채용 보기',
+    hvc:[
+      {v:'₩311.6',u:'B',l:'2025 Q1 보이스피싱\n피해 총액 (경찰청)'},
+      {v:'81.3',u:'%',l:'모바일 금융 이용률\n(한국은행 2024)'},
+      {v:'59.3',u:'/100',l:'디지털 금융이해력 평균\n(OECD 목표: 70점)'}
+    ],
+    alert:{t:'이것이 TRUSTORY LABS가 존재하는 이유',b:'디지털 금융은 보편화됐지만 안전 역량은 아직 따라오지 못했습니다.'},
+    prodT:'핵심 제품',prodD:'각 제품을 클릭하면 상세 정보를 확인할 수 있습니다.',
+    prods:[
+      {ico:'🎓',col:'var(--blue)',nm:'SafeFinance Academy',sb:'금융이해력 교육 플랫폼',d:'생애주기별 맞춤형 디지털 금융안전 교육 콘텐츠와 14개 모듈 커리큘럼을 제공합니다.',r:'service/academy'},
+      {ico:'🛡',col:'var(--green)',nm:'FraudShield Studio',sb:'금융사기 예방 캠페인 스튜디오',d:'보이스피싱 예방 캠페인을 기획부터 배포까지 원스톱으로 완성합니다.',r:'service/studio'},
+      {ico:'📊',col:'#7c3aed',nm:'Trust Insight Desk',sb:'금융 안전 리서치 & 인텔리전스',d:'신종 사기 수법과 소비자 행동 데이터를 담은 월간 인텔리전스 리포트를 제공합니다.',r:'service/desk'}
+    ],
+    whyT:'왜 우리가 존재하는가',
+    whys:[
+      {ico:'⚠',t:'보이스피싱 피해 2025 Q1 3,116억 원',d:'5,878건, 전년 동기 대비 큰 폭 증가. 단순한 수치가 아닌, 예방 가능한 피해입니다.'},
+      {ico:'📉',t:'금융이해력 격차 11.7점',d:'모바일 금융 이용률 81.3%인데 이해력은 59.3점. 이 격차가 피해의 온상입니다.'},
+      {ico:'🏦',t:'기관은 준비가 되어 있지 않습니다',d:'콘텐츠는 어렵고, 캠페인은 지루하며, 교육은 단편적입니다. TRUSTORY LABS가 이를 바꿉니다.'}
+    ]
+  },
+  about:{
+    badge:'ABOUT',
+    title:'금융 위험을\n이해의 언어로 바꿉니다',
+    sub:'복잡한 금융 리스크와 사기 수법을 금융기관·공공기관·시민 모두가 이해할 수 있는 콘텐츠로 번역합니다.',
+    storyT:'회사 이야기',storyP:'TRUSTORY LABS는 "금융사기 예방 정보는 왜 이렇게 어렵고 딱딱한가?"라는 질문에서 출발했습니다. 은행과 정부 기관이 제공하는 정보는 정확하지만, 정작 시민들이 이해하고 행동으로 연결하기 어렵습니다. 우리는 콘텐츠·교육·캠페인으로 그 간극을 메웁니다.',
+    tl:[
+      {yr:'WHY',h:'문제 발견',p:'한국 성인 금융이해력 평균 59.3점, OECD 목표 70점 미달. 보이스피싱 피해는 매년 증가.'},
+      {yr:'WHO',h:'고객 정의',p:'최종 수혜자는 시민이지만, 직접 고객은 은행·핀테크·공공기관. B2B/B2G 구조로 규모 있는 변화를 추구합니다.'},
+      {yr:'HOW',h:'접근 방식',p:'콘텐츠+교육+캠페인+인텔리전스의 하이브리드 모델. 금융 규제 이해력과 창의적 커뮤니케이션을 하나로.'},
+      {yr:'NOW',h:'현재',p:'서울 기반, 5개 핵심 직무, 3개 핵심 제품으로 대한민국 금융 안전 생태계 구축 중.'}
+    ],
+    facts:[{v:'B2B/B2G',l:'비즈니스 모델'},{v:'Seoul',l:'본사 위치'},{v:'5',l:'핵심 직무'},{v:'3',l:'핵심 제품'}],
+    valT:'핵심 가치',
+    vals:[
+      {ico:'🛡',t:'Trust by Design',d:'신뢰와 안전을 모든 메시지와 서비스 설계의 출발점으로 삼습니다.'},
+      {ico:'📖',t:'Story with Evidence',d:'통계, 정책, 실제 피해 데이터를 바탕으로 설득력 있는 메시지를 만듭니다.'},
+      {ico:'🌍',t:'Public Impact First',d:'조회수보다 이해도 향상과 실제 예방 효과를 더 중요한 성과로 봅니다.'},
+      {ico:'⚡',t:'Cross-functional',d:'금융·마케팅·PR·컴플라이언스가 하나의 실행 팀으로 움직입니다.'}
+    ]
+  },
+  mission:{
+    badge:'WHY WE EXIST',
+    title:'한국에는 두 개의 숫자가 있습니다.',
+    sub:'모바일 금융 이용률 81.3%와 디지털 금융이해력 59.3점. 이 격차가 보이스피싱과 금융 피해의 온상입니다. TRUSTORY LABS는 이 격차를 줄이기 위해 존재합니다.',
+    dataT:'2025 대한민국 금융 안전 현황',
+    bars:[
+      {l:'모바일 금융 이용률',p:81,v:'81.3%',c:'#3182f6',src:'한국은행 2024'},
+      {l:'디지털 금융이해력 평균',p:59,v:'59.3/100',c:'#f59e0b',src:'한국자본시장연구원 2025'},
+      {l:'고이해력 집단 비율',p:28,v:'28.2%',c:'#f04452',src:'한국자본시장연구원 2025'},
+      {l:'OECD 금융이해력 목표',p:70,v:'70/100',c:'#00b96b',src:'OECD 기준'},
+      {l:'2025 Q1 보이스피싱 발생',p:60,v:'5,878건',c:'#7c3aed',src:'경찰청 2025'},
+      {l:'2025 Q1 보이스피싱 피해',p:75,v:'₩311.6B',c:'#ec4899',src:'경찰청 2025'}
+    ],
+    src:'출처: 한국자본시장연구원 (2025), 한국은행 (2024), 경찰청 보이스피싱 대응 현황 (2025)',
+    appT:'우리의 접근 방식',
+    apps:[
+      {n:'01',t:'콘텐츠로 번역',d:'복잡한 금융 위험을 시민이 이해할 수 있는 기사·영상·카드 콘텐츠로 전환합니다.'},
+      {n:'02',t:'교육으로 내면화',d:'청소년·대학생·사회초년생·중장년층에 맞는 맞춤형 금융이해력 교육 프로그램을 개발합니다.'},
+      {n:'03',t:'캠페인으로 확산',d:'은행·핀테크·공공기관과 함께 금융 안전 캠페인을 설계하고 배포합니다.'},
+      {n:'04',t:'인텔리전스로 선제',d:'신종 사기 수법과 금융소비자 행동 데이터를 분석해 기관이 선제적으로 대응하도록 돕습니다.'},
+      {n:'05',t:'공공으로 연결',d:'경찰청·금융감독원·교육기관과 협력해 사회 전체의 금융 안전 역량을 높입니다.'},
+      {n:'06',t:'시스템으로 지속',d:'단일 캠페인이 아닌, 지속 가능한 금융 안전 커뮤니케이션 시스템을 기관과 함께 구축합니다.'}
+    ],
+    faqT:'자주 하는 질문',
+    faqs:[
+      ['TRUSTORY LABS는 금융 회사인가요?','금융상품을 판매하거나 금융서비스를 직접 제공하는 금융 회사가 아닙니다. 금융기관과 공공기관이 고객·시민에게 더 명확하고 안전한 금융 경험을 제공할 수 있도록 콘텐츠·교육·캠페인·인텔리전스를 제공하는 TrustTech 미디어 기업입니다.'],
+      ['왜 "미디어" 기업이라고 부르나요?','우리의 핵심 역량은 금융 리스크를 대중이 이해할 수 있는 스토리로 전환하는 것입니다. 기사형 콘텐츠, 영상 스크립트, 캠페인 메시지, 교육 자료 등 미디어 제작이 사업의 중심이기 때문입니다.'],
+      ['실제로 어떤 변화를 만드나요?','예방된 보이스피싱 1건, 이해도가 높아진 시민 1명이 우리의 성과 지표입니다. 우리가 만든 교육 콘텐츠로 금융사기를 피한 사람, 우리 캠페인을 보고 경계심이 생긴 이용자—이것이 TRUSTORY LABS가 만드는 변화입니다.']
+    ]
+  },
+  services:{
+    badge:'SERVICES',title:'세 가지 제품,\n하나의 목적',
+    sub:'모든 제품은 금융 안전을 더 쉽게, 더 넓게, 더 빠르게 전달하기 위해 설계되었습니다.',
+    prods:[
+      {n:'01',ico:'🎓',col:'var(--blue)',nm:'SafeFinance Academy',sb:'금융이해력 교육 플랫폼',d:'청소년부터 중장년까지 생애주기별 맞춤형 디지털 금융안전 교육 콘텐츠와 커리큘럼을 제공합니다.',tags:['B2B','B2G','교육기관','기업 HR'],r:'service/academy'},
+      {n:'02',ico:'🛡',col:'var(--green)',nm:'FraudShield Studio',sb:'금융사기 예방 캠페인 스튜디오',d:'보이스피싱·기관사칭·전자금융사기 예방 캠페인 콘텐츠를 기획부터 배포까지 원스톱으로 제작합니다.',tags:['은행','핀테크','공공기관'],r:'service/studio'},
+      {n:'03',ico:'📊',col:'#7c3aed',nm:'Trust Insight Desk',sb:'금융 안전 리서치 & 인텔리전스',d:'신종 사기 수법 트렌드와 금융소비자 행동 분석을 담은 월간 인텔리전스 리포트를 제공합니다.',tags:['은행','정책기관','연구소'],r:'service/desk'}
+    ]
+  },
+  svcAcademy:{
+    badge:'PRODUCT 01',title:'SafeFinance Academy',
+    sub:'청소년부터 중장년까지, 생애주기별 맞춤형 디지털 금융안전 교육 콘텐츠와 커리큘럼을 제공합니다. 모듈형 구조로 학교·기업·공공기관 어디서든 바로 도입 가능합니다.',
+    tags:['B2B','B2G','교육기관','기업 HR'],
+    currT:'커리큘럼 구조 (4 Level, 16 Module)',
+    curr:[
+      {badge:'LEVEL 1',name:'기초 디지털 금융 안전',mods:[
+        {n:'M01',t:'금융사기 기초 이해',d:'60분'},{n:'M02',t:'모바일뱅킹 보안 설정',d:'45분'},
+        {n:'M03',t:'개인정보 보호 실천',d:'45분'},{n:'M04',t:'피해 신고 절차',d:'60분'}
+      ]},
+      {badge:'LEVEL 2',name:'디지털 거래 사기 예방',mods:[
+        {n:'M05',t:'보이스피싱 유형 분석',d:'60분'},{n:'M06',t:'스미싱·피싱 방어법',d:'60분'},
+        {n:'M07',t:'QR코드 사기 예방',d:'45분'},{n:'M08',t:'간편결제 안전 이용',d:'45분'}
+      ]},
+      {badge:'LEVEL 3',name:'투자·대출 사기 방어',mods:[
+        {n:'M09',t:'불법 투자 유도 인식',d:'75분'},{n:'M10',t:'SNS 투자 사기 방어',d:'60분'},
+        {n:'M11',t:'불법 대출 사기 예방',d:'60분'},{n:'M12',t:'크라우드펀딩 위험',d:'45분'}
+      ]},
+      {badge:'LEVEL 4',name:'위기 대응 & 회복',mods:[
+        {n:'M13',t:'피해 발생 시 즉시 대응',d:'60분'},{n:'M14',t:'신고·환급 절차',d:'60분'},
+        {n:'M15',t:'2차 피해 예방',d:'45분'},{n:'M16',t:'심리적 회복 지원',d:'45분'}
+      ]}
+    ],
+    audsT:'대상별 맞춤 구성',
+    auds:[
+      {ico:'🧒',t:'청소년 (중·고)',d:'학교 연계 정규 수업, 게임형 퀴즈 모듈 포함'},
+      {ico:'🎓',t:'대학생',d:'비교과 특강, 금융동아리 프로그램 연계 가능'},
+      {ico:'💼',t:'사회초년생',d:'기업 HR 연계 온보딩 금융안전 교육'},
+      {ico:'👵',t:'중장년층',d:'디지털 취약계층 특화, 보이스피싱 집중 과정'}
+    ],
+    delivT:'산출물',
+    delivs:['강의안 및 실습 워크시트','LMS PDF 및 슬라이드 패키지','사전·사후 평가 도구','수료 리포트 (기관 명의 발급 가능)'],
+    faqT:'도입 관련 FAQ',
+    faqs:[
+      ['하나의 모듈만 도입할 수 있나요?','네, 각 모듈은 독립적으로 운영 가능합니다. Level 1-2를 기반으로 Level 3-4를 추가하는 방식이 학습 효과가 가장 높습니다.'],
+      ['오프라인 강의도 지원하나요?','온라인 자기주도 학습과 오프라인 강의(특강, 워크숍) 모두 지원합니다. 기관 상황에 맞게 블렌디드 방식으로 설계할 수 있습니다.'],
+      ['수료증 발급이 가능한가요?','전 모듈 수료 시 기관 명의 수료증 발급을 지원합니다. 이수 데이터는 기관 HR 시스템과 연동 가능합니다.']
+    ]
+  },
+  svcStudio:{
+    badge:'PRODUCT 02',title:'FraudShield Studio',
+    sub:'보이스피싱·기관사칭·전자금융사기 예방을 위한 캠페인 콘텐츠를 기획부터 배포까지 원스톱으로 제작합니다. 은행·핀테크·공공기관의 브랜드에 완전히 맞게 커스터마이징됩니다.',
+    tags:['은행','핀테크','공공기관'],
+    pkgT:'6대 제공 패키지',
+    pkgs:[
+      {ico:'🎬',bg:'#ebf3ff',nm:'영상 패키지',items:['30초·60초·3분 예방 영상 스크립트','모션그래픽 기획안 (스토리보드)','자막·나레이션 가이드','유튜브·인스타·틱톡 최적화 버전']},
+      {ico:'📱',bg:'#e6faf0',nm:'SNS 콘텐츠',items:['인스타그램 카드뉴스 6장 세트','카카오채널 이미지 세트','X(트위터) 스레드 초안','유튜브 쇼츠 시나리오']},
+      {ico:'🌐',bg:'#f5f3ff',nm:'웹 랜딩페이지',items:['캠페인 전용 랜딩 와이어프레임','인터랙티브 금융사기 퀴즈 설계','FAQ 구조화 및 문구 가이드','전환 최적화 CTA 설계']},
+      {ico:'📣',bg:'#fff8e7',nm:'PR 패키지',items:['보도자료 (국문·영문)','FAQ 응답 템플릿','위기 커뮤니케이션 가이드','소셜 모니터링 키워드 세트']},
+      {ico:'📊',bg:'#fef2f2',nm:'성과 측정',items:['KPI 설정 가이드','인지도 사전·사후 조사 설계','미디어 노출 트래킹 체계','최종 성과 보고서 템플릿']},
+      {ico:'🔄',bg:'#e6faf0',nm:'운영 지원',items:['콘텐츠 발행 캘린더','커뮤니티 응대 가이드','월간 콘텐츠 갱신 스케줄','분기별 리뷰 세션']}
+    ],
+    procT:'제작 프로세스 (6주)',
+    procs:[
+      {n:'W1',t:'킥오프·진단',d:'목표·KPI 합의, 타겟 분석'},
+      {n:'W2',t:'메시지 설계',d:'사기 시나리오 정의, 메시지 구조화'},
+      {n:'W3',t:'콘텐츠 제작',d:'영상·카드·랜딩 제작'},
+      {n:'W4',t:'검수·보완',d:'리스크·법무·CS 합동 리뷰'},
+      {n:'W5',t:'배포 준비',d:'채널별 업로드, FAQ 세팅'},
+      {n:'W6',t:'성과 분석',d:'KPI 리포트, 개선안 도출'}
+    ],
+    faqT:'캠페인 FAQ',
+    faqs:[
+      ['제작 기간은 얼마나 걸리나요?','캠페인 패키지 기준 기획 2주, 제작 3주, 검수 1주로 총 6주를 기본으로 합니다. 긴급 캠페인의 경우 3주 이내 패스트트랙 운영도 가능합니다.'],
+      ['저작권은 누구에게 귀속되나요?','FraudShield Studio로 제작된 콘텐츠의 저작권은 의뢰 기관에 귀속됩니다. 재편집·재사용·내부 배포에 별도 라이선스 비용이 발생하지 않습니다.'],
+      ['중소 핀테크도 도입할 수 있나요?','물론입니다. 대형 은행부터 스타트업 핀테크까지 규모에 맞는 패키지와 가격 구조로 제공합니다.']
+    ]
+  },
+  svcDesk:{
+    badge:'PRODUCT 03',title:'Trust Insight Desk',
+    sub:'신종 사기 수법 트렌드, 금융소비자 행동 분석, 위험 커뮤니케이션 전략을 담은 월간 인텔리전스 리포트를 제공합니다. 기관이 선제적으로 대응할 수 있는 데이터 기반 인사이트입니다.',
+    tags:['은행','정책기관','연구소'],
+    rptT:'월간 리포트 구성',
+    rptSecs:[
+      {n:'01',nm:'이달의 주요 사기 수법 TOP 5',pg:'p.04–10'},
+      {n:'02',nm:'보이스피싱 피해 통계 & 트렌드',pg:'p.11–18'},
+      {n:'03',nm:'디지털 금융소비자 행동 분석',pg:'p.19–25'},
+      {n:'04',nm:'위험 커뮤니케이션 전략 제언',pg:'p.26–32'},
+      {n:'05',nm:'기관별 맞춤 대응 가이드',pg:'p.33–38'},
+      {n:'06',nm:'다음 달 예상 위험 신호',pg:'p.39–42'}
+    ],
+    catsT:'인텔리전스 범주',
+    cats:[
+      {ico:'🔍',t:'사기 수법 모니터링',d:'신종 보이스피싱·피싱·스미싱 수법 주간 추적'},
+      {ico:'📈',t:'소비자 행동 분석',d:'금융이해력·취약군 행동 패턴 데이터 분석'},
+      {ico:'⚠',t:'조기 경보 브리핑',d:'급증 사기 유형 즉시 알림 및 대응 가이드'},
+      {ico:'🗺',t:'정책 모니터링',d:'금융위·금감원·경찰청 규제 변경 주간 추적'}
+    ],
+    faqT:'구독 FAQ',
+    faqs:[
+      ['리포트는 어떤 방식으로 제공되나요?','매월 첫째 주 PDF 형태로 구독 기관 담당자 이메일로 발송됩니다. 기관 인트라넷 연동도 지원합니다.'],
+      ['데이터 출처는 어디서 가져오나요?','경찰청 공개 통계, 금융감독원 소비자 피해 데이터, 한국인터넷진흥원 사이버 침해 리포트, 자체 모니터링 데이터 등 공신력 있는 출처만 사용합니다.'],
+      ['맞춤형 분석을 요청할 수 있나요?','구독 플랜에 따라 기관별 맞춤 분석 추가 요청이 가능합니다. 자세한 사항은 문의해 주세요.']
+    ]
+  },
+  clients:{
+    badge:'CLIENTS',title:'우리가 협업하는\n기관과 파트너',
+    sub:'최종 수혜자는 시민과 금융 이용자이지만, TRUSTORY LABS의 직접 고객은 그들을 상대하는 기관입니다.',
+    tabs:[{id:'all',l:'전체'},{id:'bank',l:'은행'},{id:'fintech',l:'핀테크'},{id:'public',l:'공공기관'},{id:'edu',l:'교육기관'}],
+    clis:[
+      {type:'bank',ico:'🏦',bg:'#ebf3ff',nm:'시중은행 · 특수은행',sub:'국내 대형 은행 및 인터넷 전문은행',svcs:['보이스피싱 예방 고객 안내 콘텐츠 제작','비대면 금융거래 안전 교육 자료 개발','사기 피해 발생 시 위기 커뮤니케이션 지원','고령층·디지털 취약계층 금융안전 교육','Trust Insight Desk 월간 리스크 브리핑']},
+      {type:'fintech',ico:'💳',bg:'#e6faf0',nm:'핀테크 · 페이먼트',sub:'간편결제, 인터넷전문은행, 크라우드펀딩',svcs:['앱 이용자 대상 금융안전 온보딩 콘텐츠','결제 사기 예방 UI/UX 문구 가이드 제공','서비스 신뢰도 향상 브랜드 캠페인 기획','FDS 고객 안내 메시지 최적화 컨설팅','투자·대출 서비스 소비자 보호 콘텐츠']},
+      {type:'public',ico:'🏛',bg:'#fff8e7',nm:'공공기관 · 정부',sub:'금융위원회, 금융감독원, 경찰청, 지자체',svcs:['시민 대상 금융사기 예방 공익 캠페인','디지털 취약계층 특화 교육 프로그램','정책 홍보 콘텐츠 및 보도자료 지원','SafeFinance Academy 공공 커리큘럼 공급','관계기관 협력 캠페인 기획 및 제작']},
+      {type:'edu',ico:'🎓',bg:'#f5f3ff',nm:'대학교 · 교육기관',sub:'4년제 대학, 전문대학, 고등학교',svcs:['금융이해력 정규 교과 연계 프로그램','대학생 금융안전 특강 및 워크숍 운영','청소년 금융 사기 예방 교육 모듈','교직원 금융안전 역량 강화 교육','학교 금융동아리 연계 캠퍼스 캠페인']}
+    ],
+    modelT:'비즈니스 모델',modelD:'TRUSTORY LABS는 기관의 의뢰를 받아 콘텐츠·교육·캠페인을 공급하고, 그 결과는 시민과 금융 이용자에게 전달됩니다.',
+    modelItems:[{t:'캠페인 프로젝트',d:'기관 맞춤형 예방 캠페인 프로젝트'},{t:'교육 패키지',d:'Academy 모듈 라이선스 및 운영'},{t:'리서치 구독',d:'Trust Insight Desk 월간 구독'},{t:'리테이너 운영',d:'정기 콘텐츠 운영 및 위기 대응'}]
+  },
+  careers:{
+    badge:'JOIN US',title:'TRUSTORY LABS와\n함께 성장하세요',
+    sub:'금융 안전을 재설계하는 팀에 합류하세요. 금융·마케팅·PR·보안·리스크 직무가 하나의 미션 아래 연결됩니다.',
+    c1:'채용 공고 보기',c2:'채용 절차 보기',
+    qls:[{ico:'🎨',t:'조직 문화',d:'우리가 일하는 방식',r:'culture'},{ico:'🎁',t:'복지 혜택',d:'실제로 체감되는 보상',r:'benefits'},{ico:'📋',t:'채용 절차',d:'지원부터 입사까지',r:'process'},{ico:'💼',t:'채용 공고',d:'지금 채용 중인 포지션',r:'jobs'}],
+    nums:[{v:'5',u:'개',l:'현재 채용 포지션'},{v:'~6',u:'주',l:'채용 전형 소요 기간'},{v:'100',u:'%',l:'모든 지원자 결과 통보'},{v:'B2B',u:'/G',l:'비즈니스 모델'}],
+    whyT:'왜 TRUSTORY LABS인가요?',
+    whys:[{ico:'🎯',t:'직무가 연결된 구조',d:'금융·마케팅·PR·보안·리스크 직무가 하나의 사업 안에서 실제로 협업합니다.'},{ico:'🌍',t:'공익과 성장이 공존',d:'회사의 성장이 곧 시민의 금융 안전 강화로 이어집니다.'},{ico:'⚡',t:'빠른 실행과 자율',d:'아이디어에서 실행까지 빠른 사이클. 자율적인 환경에서 직무 전문가로 성장합니다.'}]
+  },
+  culture:{
+    badge:'CULTURE',title:'우리가 일하는 방식',
+    sub:'TRUSTORY LABS의 문화는 "정보는 쉬워야 힘이 생긴다"는 믿음에서 출발합니다.',
+    vals:[
+      {ico:'🔍',n:'01',t:'투명한 커뮤니케이션',d:'정보는 공유될 때 힘이 생깁니다. 의사결정 과정을 투명하게 공유합니다.'},
+      {ico:'🚀',n:'02',t:'실행 우선주의',d:'완벽한 계획보다 빠른 실행과 학습을 더 가치 있게 봅니다.'},
+      {ico:'🤝',n:'03',t:'협업과 교차 학습',d:'직무 경계를 넘나드는 협업이 우리의 강점입니다.'},
+      {ico:'📐',n:'04',t:'디테일에 대한 집착',d:'금융 안전 정보는 부정확하면 더 위험합니다. 정확성에 집착합니다.'}
+    ],
+    dayT:'TRUSTORY LABS의 하루',dayD:'구체적인 업무 흐름을 통해 우리 문화를 보여드립니다.',
+    days:[
+      {t:'09:00',h:'데일리 스탠드업',p:'15분. 어제·오늘·블로커 공유. 모든 팀이 같은 맥락을 가집니다.'},
+      {t:'10:00–12:00',h:'딥워크 블록',p:'방해 없는 집중 작업 시간. 슬랙 알림을 꺼도 되는 유일한 시간.'},
+      {t:'13:00–14:00',h:'점심 & 팀 브런치',p:'팀 식대 지원. 강요 없는 자율 점심.'},
+      {t:'14:00–16:00',h:'협업 시간',p:'크로스팀 미팅, 파트너 콜, 리뷰 세션.'},
+      {t:'16:00–18:00',h:'마무리 & 문서화',p:'오늘의 결과를 기록하고 내일을 준비합니다.'},
+      {t:'Flex',h:'자율 출퇴근',p:'코어 타임 10:00–16:00. 그 외 시간은 자율 조정 가능합니다.'}
+    ],
+    envT:'업무 환경',
+    envs:[{ico:'🏢',t:'하이브리드 근무',d:'주 3일 오피스 / 2일 원격.'},{ico:'💻',t:'장비 지원',d:'맥북 or 고사양 윈도우 선택, 주변기기 완비.'},{ico:'☕',t:'오피스 환경',d:'서울 도심 위치. 스탠딩 데스크 옵션 제공.'},{ico:'📚',t:'도서 & 학습',d:'월 5만원 도서 지원. 팀 북클럽 운영.'}]
+  },
+  benefits:{
+    badge:'BENEFITS',title:'실제로 쓰이는\n복지를 만듭니다',
+    sub:'나열만 하고 아무도 쓰지 않는 복지가 아닌, 매일 일하면서 실제로 느껴지는 보상 구조를 설계합니다.',
+    cats:[
+      {ico:'💰',t:'보상 & 성과',d:'경쟁력 있는 기본 연봉과 성과 중심 보상',bg:'#ebf3ff',ibg:'#dbeafe',icol:'#1d4ed8',
+        items:[{ic:'💵',t:'경쟁력 있는 기본 연봉',d:'동종 업계 상위 수준'},{ic:'🏆',t:'성과급',d:'반기별 KPI 달성 기준'},{ic:'💹',t:'초과이익 분배',d:'영업이익 5% 초과분 환원'},{ic:'🎯',t:'프로젝트 인센티브',d:'우수 프로젝트 완료 시 지급'},{ic:'📈',t:'명확한 커리어 패스',d:'승진 기준 공개 운영'},{ic:'⏰',t:'연장근무 보상',d:'대체 휴가 또는 수당'}]},
+      {ico:'❤',t:'건강 & 가족',d:'구성원과 가족의 건강을 챙깁니다',bg:'#fef2f2',ibg:'#fee2e2',icol:'#dc2626',
+        items:[{ic:'🏥',t:'건강검진 지원',d:'본인 연 1회 + 가족 지원'},{ic:'🧠',t:'심리상담 연계',d:'연 6회 무료 지원'},{ic:'💊',t:'웰니스 지원금',d:'헬스장 등 월 5만원'},{ic:'👶',t:'경조사 지원',d:'경조금 및 휴가 지원'},{ic:'🏖',t:'리프레시 프로그램',d:'3년 근속 시 휴가 + 비용'},{ic:'🏨',t:'제휴 리조트',d:'직원 할인 혜택'}]},
+      {ico:'📚',t:'성장 & 학습',d:'배움을 멈추지 않도록 지원합니다',bg:'#f5f3ff',ibg:'#ede9fe',icol:'#7c3aed',
+        items:[{ic:'📖',t:'직무교육비',d:'연 200만원 지원'},{ic:'🎓',t:'자격증 취득',d:'응시료 100% 지원'},{ic:'🌍',t:'외부 컨퍼런스',d:'참가비 및 출장비 지원'},{ic:'🤝',t:'전문가 멘토링',d:'분기별 1:1 세션'},{ic:'📚',t:'도서 & 아티클',d:'월 5만원 + 구독 지원'},{ic:'🚀',t:'온보딩 로드맵',d:'30/60/90일 단계별 가이드'}]},
+      {ico:'🏡',t:'근무 & 생활',d:'일과 삶의 균형을 지킵니다',bg:'#f0fdf4',ibg:'#d1fae5',icol:'#059669',
+        items:[{ic:'🏢',t:'하이브리드 근무',d:'주 3일 오피스, 2일 재택'},{ic:'⏰',t:'유연 근무제',d:'코어타임 10–16시'},{ic:'🌴',t:'연차 15일+',d:'입사 1년 후 15일, 매년 1일 추가'},{ic:'🍽',t:'식대 지원',d:'월 10만원 지원'},{ic:'💻',t:'장비 일체 지원',d:'노트북·모니터 전액'},{ic:'🎁',t:'명절 선물',d:'설·추석 선물 또는 상품권'}]}
+    ]
+  },
+  process:{
+    badge:'HOW WE HIRE',title:'채용 절차를\n투명하게 공개합니다',
+    sub:'지원자가 예측 가능하고 공정한 채용 경험을 할 수 있도록 모든 단계와 평가 기준을 사전에 공개합니다.',
+    steps:[
+      {n:'01',t:'서류 접수',d:'이력서 + 자기소개서\n직무 선택'},
+      {n:'02',t:'서류 검토',d:'루브릭 기반\n직무 관련성 평가'},
+      {n:'03',t:'과제 전형',d:'직무별 실무 과제\n60–90분 소요'},
+      {n:'04',t:'실무 면접',d:'구조화 인터뷰\n직무 적합성 평가'},
+      {n:'05',t:'최종 면접',d:'패널 인터뷰\n팀 리더 포함'},
+      {n:'✓',t:'오퍼 & 입사',d:'최종 오퍼 발송\n30/60/90일 온보딩',done:true}
+    ],
+    detT:'각 단계 상세 안내',
+    dets:[
+      {n:'STEP 01',t:'서류 접수',p:'이력서, 자기소개서(1,000자 내외)를 제출합니다. 포트폴리오는 Marketing, PR 직무에서 선택 제출을 권장합니다. 직무와 무관한 사진·나이·성별·출신학교 등 개인정보는 수집하지 않습니다.',tip:'📌 직무 관련 경험을 중심으로 작성하세요. 스펙보다 문제 해결 경험이 중요합니다.',done:false},
+      {n:'STEP 02',t:'서류 검토',p:'동일한 평가 루브릭을 기준으로 모든 지원자를 검토합니다. 검토 완료 후 1주일 이내 결과를 개별 통보합니다.',tip:'📌 평균 검토 기간: 3–5 영업일. 궁금한 점은 careers@trustorylabs.com으로 문의하세요.',done:false},
+      {n:'STEP 03',t:'과제 전형',p:'직무별로 설계된 실무 과제를 부여합니다. 과제는 실제 TRUSTORY LABS 업무와 유사한 상황을 제시합니다. 소요 시간은 60–90분을 기준으로 설계되었습니다.',tip:'📌 정답보다 접근 방식과 사고 과정을 더 중요하게 평가합니다.',done:false},
+      {n:'STEP 04',t:'실무 면접',p:'구조화된 질문 기반의 인터뷰로 진행됩니다. 직무 적합성, 상황 대응 역량, 커뮤니케이션 능력을 중심으로 평가합니다. 면접 전 평가 기준을 사전 안내드립니다.',tip:'📌 면접 소요 시간: 약 60분. 화상 또는 대면 면접 중 선택 가능합니다.',done:false},
+      {n:'STEP 05',t:'최종 면접',p:'팀 리더와 경영진이 함께하는 패널 면접입니다. 팀 핏, 장기 커리어 목표, 회사 방향과의 정합성을 논의합니다.',tip:'📌 이 단계에서 직접 궁금한 점을 물어보세요.',done:false},
+      {n:'STEP ✓',t:'오퍼 & 온보딩',p:'최종 합격 시 오퍼 레터를 발송합니다. 입사 후 30/60/90일 온보딩 로드맵에 따라 체계적으로 지원합니다. 레퍼런스 체크는 서면 동의 기반으로만 진행합니다.',tip:'📌 온보딩 기간에는 전담 버디(Buddy)가 배정됩니다.',done:true}
+    ],
+    fairT:'공정 채용 원칙',
+    fairs:[
+      {ico:'⚖',t:'직무 관련 정보만 수집',p:'학력·나이·성별·사진 등 직무 무관 정보는 요구하지 않습니다.'},
+      {ico:'📊',t:'루브릭 기반 평가',p:'동일한 평가 기준을 모든 지원자에게 동등하게 적용합니다.'},
+      {ico:'🔒',t:'개인정보 보호',p:'채용 목적 외 개인정보 활용 금지. 채용 종료 후 규정에 따라 파기합니다.'},
+      {ico:'📩',t:'결과 반드시 통보',p:'합격·불합격 여부와 관계없이 모든 지원자에게 결과를 개별 통보합니다.'}
+    ],
+    faqT:'채용 FAQ',
+    faqs:[
+      ['지원 자격에 학력 제한이 있나요?','없습니다. TRUSTORY LABS는 학력보다 직무 관련 경험과 역량을 평가합니다.'],
+      ['신입도 지원 가능한가요?','가능합니다. 일부 포지션은 경력 0–3년 범위로 신입을 포함합니다.'],
+      ['영어 면접도 진행하나요?','대부분의 면접은 한국어로 진행됩니다. 다만 영어 비즈니스 라이팅 역량은 모든 직무에서 기본으로 요구합니다.'],
+      ['동시에 여러 포지션에 지원할 수 있나요?','한 번의 채용 사이클에서 최대 1개 포지션에 지원 가능합니다.'],
+      ['전형 일정은 얼마나 걸리나요?','지원서 접수부터 최종 오퍼까지 평균 6주를 목표로 합니다. 단계별로 개별 안내드립니다.']
+    ]
+  },
+  jobs:{
+    badge:'OPEN POSITIONS',title:'지금 채용 중입니다',
+    sub:'5개 포지션, 모두 서울 기반 하이브리드 근무입니다.',
+    ftit:'필터',fdept:'부서',ftype:'고용형태',fexp:'경력',rst:'초기화',
+    depts:['전체','Finance','Marketing','Publishing','Security','Risk'],
+    types:['전체','Full-time'],exps:['전체','0–3년','1–3년','1–4년','공공기관 배경'],
+    noR:'조건에 맞는 포지션이 없습니다.',
+    list:[
+      {id:'fin',dept:'Finance',title:'Finance & People Ops Associate',tags:['서울 · 하이브리드','Full-time','0–3년 경력'],desc:'예산 운영, 채용 전형 조율, 평가 기록 관리, 오퍼 및 온보딩 전 과정을 담당합니다.',type:'Full-time',exp:'0–3년'},
+      {id:'mkt',dept:'Marketing',title:'Digital Trust Campaign Manager',tags:['서울 · 하이브리드','Full-time','1–3년 경력'],desc:'금융안전 캠페인의 기획·실행·성과 분석 전 사이클을 주도합니다.',type:'Full-time',exp:'1–3년'},
+      {id:'pr',dept:'Publishing',title:'Editorial Content Producer',tags:['서울 · 하이브리드','Full-time','1–4년 경력'],desc:'금융안전 메시지를 기사형·영상형·카드형 콘텐츠로 기획하고 제작합니다.',type:'Full-time',exp:'1–4년'},
+      {id:'sec',dept:'Security',title:'Fraud Prevention Advisor',tags:['서울 · 하이브리드','Full-time','공공기관 배경 우대'],desc:'경찰·공공기관 관점에서 사기 예방 콘텐츠의 정확성과 공신력을 보장합니다.',type:'Full-time',exp:'공공기관 배경'},
+      {id:'rsk',dept:'Risk',title:'Transaction Risk & Compliance Analyst',tags:['서울 · 하이브리드','Full-time','0–3년 경력'],desc:'고위험 거래 패턴 분석과 내부 컴플라이언스 운영을 담당합니다.',type:'Full-time',exp:'0–3년'}
+    ]
+  },
+  jds:{
+    fin:{dept:'Finance & Strategy',title:'Finance & People Ops Associate',tags:['서울 · 하이브리드','Full-time','0–3년 경력'],
+      sum:'재무 운영, 채용 운영, 평가 기록 관리, 온보딩 지원을 통합 수행하는 역할입니다.',
+      resps:['연간 예산 계획 수립 보조 및 월별 지출 모니터링','채용 파이프라인 일정 조율 및 후보자 커뮤니케이션 전반 관리','전형 단계별 평가 기록 체계화 및 데이터 관리','최종 합격자 오퍼 레터 발송 및 온보딩 체크리스트 운영','프로젝트 인보이스, 지급 일정, 비용 기록 처리','채용 관련 개인정보 처리 및 보관·파기 원칙 준수','운영 SOP 작성 및 내부 프로세스 지속 개선'],
+      quals:['경영, 회계, 인사, 공공정책 관련 전공 또는 동등한 경험','스프레드시트 기반 데이터 관리 및 문서 작업 능숙','다중 일정 및 커뮤니케이션을 정밀하게 관리하는 역량','영어 비즈니스 문서 작성 가능 (기본 이상)','[우대] 컴퓨터활용능력 1급, MOS Excel Expert, ADsP'],
+      proc:'서류 접수 → 직무 과제 → 실무 면접 → 최종 면접 → 오퍼',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'0–3년',sal:'사규에 의함',dl:'상시 채용',team:'Operations'}},
+    mkt:{dept:'Marketing',title:'Digital Trust Campaign Manager',tags:['서울 · 하이브리드','Full-time','1–3년 경력'],
+      sum:'금융사기 예방과 디지털 금융이해력 향상을 위한 캠페인을 기획부터 실행, 성과 분석까지 전 사이클을 주도합니다.',
+      resps:['금융사기 예방 및 금융이해력 향상 캠페인 기획·실행','리서치·정책 변화·피해 패턴 기반 메시지 전략 수립','웹·뉴스레터·영상·카드뉴스 제작 협업','은행·핀테크·공공기관·교육기관과의 파트너 프로젝트 운영','캠페인 KPI 설정, 측정, 개선'],
+      quals:['마케팅, 커뮤니케이션, 경영, 미디어 관련 전공 또는 동등한 경험','복잡한 정보를 쉬운 구조로 전환하고 메시지화하는 역량','영어 콘텐츠 작성 및 대외 커뮤니케이션 가능','[우대] 콘텐츠 기획·캠페인 운영 실무 경험'],
+      proc:'서류 + (선택) 포트폴리오 → 캠페인 기획 과제 → 실무 면접 → 최종 면접 → 오퍼',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'1–3년',sal:'사규에 의함',dl:'상시 채용',team:'Marketing'}},
+    pr:{dept:'Content & Publishing',title:'Editorial Content Producer',tags:['서울 · 하이브리드','Full-time','1–4년 경력'],
+      sum:'금융안전과 디지털 리스크를 시민이 쉽게 이해하고 공유하고 싶어지는 콘텐츠로 전환합니다.',
+      resps:['금융사기 예방 관련 기사형·뉴스레터형 콘텐츠 기획 및 제작','숏폼 영상 스크립트 및 SNS 카드뉴스 기획','보도자료·FAQ·공지문 등 대외 커뮤니케이션 자료 구조화','은행·공공기관 대상 PR 캠페인 스토리텔링','외부 미디어 채널과의 콘텐츠 배포 협업'],
+      quals:['저널리즘, 영문, 출판, 미디어, 광고홍보 관련 전공 또는 동등한 경험','복잡한 정보를 일반 독자가 이해할 수 있는 언어로 전환하는 역량','한국어·영어 비즈니스 라이팅 가능','[우대] SNS·유튜브·뉴스레터 등 멀티채널 콘텐츠 제작 경험'],
+      proc:'서류 + 포트폴리오 → 콘텐츠 제작 과제 → 실무 면접 → 최종 면접 → 오퍼',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'1–4년',sal:'사규에 의함',dl:'상시 채용',team:'Content'}},
+    sec:{dept:'Public Safety & Advisory',title:'Fraud Prevention Advisor',tags:['서울 · 하이브리드','Full-time','공공기관 배경 우대'],
+      sum:'경찰·공공기관 관점에서 TRUSTORY LABS가 제작하는 사기 예방 콘텐츠의 정확성과 공신력을 보장합니다.',
+      resps:['콘텐츠의 사기 시나리오 및 범죄예방 정확성 검수','보이스피싱·기관사칭 사기 최신 트렌드 모니터링','경찰청·금융감독원 등 공공기관과의 협업 창구 역할','SafeFinance Academy 내 범죄예방 모듈 자문 및 검토','운영 데이터 보호 체계 SOP 수립 지원'],
+      quals:['경찰, 법학, 행정학, 형사사법학, 보안 관련 전공 또는 실무 경험','범죄예방·보안·컴플라이언스 분야에 대한 전문적 이해','공공기관 협업 및 문서 기반 커뮤니케이션 역량','[우대] 경찰청·금감원 등 관련 기관 근무 경험'],
+      proc:'서류 접수 → 직무 과제 → 실무 면접 → 최종 면접 → 오퍼',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'공공기관 배경 우대',sal:'사규에 의함',dl:'상시 채용',team:'Safety & Advisory'}},
+    rsk:{dept:'Risk & Compliance',title:'Transaction Risk & Compliance Analyst',tags:['서울 · 하이브리드','Full-time','0–3년 경력'],
+      sum:'고위험 거래 패턴 분석과 내부 컴플라이언스 운영을 통해 TRUSTORY LABS의 서비스 신뢰성과 법적 안전성을 담보합니다.',
+      resps:['고위험 거래 패턴 분석 및 리스크 커뮤니케이션 초안 작성','내부 운영 프로세스 SOP 작성 및 체크리스트 관리','파트너 기관 컴플라이언스 자료 검토 및 조율','리스크 관련 데이터 수집 및 대시보드 보고 지원','개인정보 처리 및 ISMS-P 기준 준수 운영 지원'],
+      quals:['경영, 금융, 법학, 호텔경영, 관광, 리스크관리 관련 전공 또는 동등한 경험','고위험 환경에서의 정밀한 판단 및 기록 관리 역량','스프레드시트 및 데이터 기반 문서 작업 능숙','영어 비즈니스 문서 작성 가능'],
+      proc:'서류 접수 → 직무 과제 → 실무 면접 → 최종 면접 → 오퍼',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'0–3년',sal:'사규에 의함',dl:'상시 채용',team:'Risk & Compliance'}}
+  },
+  contact:{
+    badge:'CONTACT',title:'문의하세요',
+    sub:'채용, 파트너십, 서비스 도입 어떤 주제든 편하게 연락주세요. 영업일 기준 2일 이내 답변드립니다.',
+    dets:[{ico:'✉',l:'이메일',v:'contact@trustorylabs.com'},{ico:'📧',l:'채용 문의',v:'careers@trustorylabs.com'},{ico:'☎',l:'전화',v:'+82-2-555-1030'},{ico:'📍',l:'위치',v:'Seoul, South Korea'},{ico:'⏰',l:'운영시간',v:'월–금 09:00–18:00 KST'}],
+    fmT:'메시지 보내기',fmS:'최대한 빠르게 답변드리겠습니다.',
+    fl:['이름','이메일','문의 유형','메시지','보내기'],
+    fp:['성함을 입력하세요','이메일 주소','문의 유형을 선택해주세요','문의 내용을 입력해주세요'],
+    ftypes:['채용 문의','서비스 도입 문의','파트너십 제안','언론·PR 문의','기타'],
+    sent:'전송 완료 ✓ 빠르게 답변드리겠습니다.'
+  }
+};
+const EN={
+  navSub:'Safer Money · Smarter Decisions',
+  navCta:'Open Roles',
+  nl:[{l:'Home',r:'home'},{l:'About',r:'about'},{l:'Mission',r:'mission'},{l:'Services',r:'services'},{l:'Clients',r:'clients'},{l:'Careers',r:'careers'},{l:'Contact',r:'contact'}],
+  cs:[{l:'Careers',r:'careers'},{l:'Culture',r:'culture'},{l:'Benefits',r:'benefits'},{l:'Process',r:'process'},{l:'Open Roles',r:'jobs'}],
+  jdInfoL:{loc:'Location',type:'Type',exp:'Experience',sal:'Salary',dl:'Deadline',team:'Team'},
+  jdInfoT:'Position Details',jdApplyCard:'Interested in this role?',jdApplyBtn:'Apply Now',
+  back:'Back',backJobs:'Open Roles',
+  applyBefore:'Before You Apply',reqLabel:'Required',optLabel:'Optional',nextLabel:'Next Step',
+  consentTxt:'I agree to the collection and use of personal data (for hiring purposes; deleted after process ends)',
+  docConsentTxt:'I have reviewed and agree to the application document return and destruction policy',
+  submitApp:'Submit Application',submitSent:'Submitted ✓ We\'ll keep you updated at each stage',
+  ft:{
+    tagline:'Safer Money, Smarter Decisions',
+    cols:[
+      {h:'Company',lk:[{l:'About',r:'about'},{l:'Mission',r:'mission'},{l:'Services',r:'services'},{l:'Clients',r:'clients'}]},
+      {h:'Careers',lk:[{l:'Careers Home',r:'careers'},{l:'Culture',r:'culture'},{l:'Benefits',r:'benefits'},{l:'Hiring Process',r:'process'},{l:'Open Roles',r:'jobs'}]},
+      {h:'Contact',lk:[{l:'Get in Touch',r:'contact'}]}
+    ],
+    copy:'© 2025 TRUSTORY LABS · Seoul, South Korea',
+    disc:'This website was created as a team project for a Business English course. TRUSTORY LABS is a fictional company concept. Statistics cited are based on publicly available reports from KCMI (2025), Bank of Korea (2024), and the National Police Agency (2025).'
+  },
+  home:{
+    badge:'TrustTech Media',
+    t1:'Safer money.',t2:'Smarter people.',
+    sub:'Anti-fraud communication · Digital financial literacy · Public-interest campaigns\nThe TrustTech media company changing how Korea talks about financial safety.',
+    c1:'Learn More',c2:'View Open Roles',
+    hvc:[
+      {v:'₩311.6',u:'B',l:'Voice phishing losses\nQ1 2025 (National Police Agency)'},
+      {v:'81.3',u:'%',l:'Mobile banking adoption\n(Bank of Korea 2024)'},
+      {v:'59.3',u:'/100',l:'Avg digital financial literacy\n(OECD target: 70)'}
+    ],
+    alert:{t:'This is why TRUSTORY LABS exists',b:'Digital finance is universal. Financial safety is not.'},
+    prodT:'Core Products',prodD:'Click each product card for the full details.',
+    prods:[
+      {ico:'🎓',col:'var(--blue)',nm:'SafeFinance Academy',sb:'Financial Literacy Education Platform',d:'Modular digital financial safety education programs for every life stage — from teens to seniors.',r:'service/academy'},
+      {ico:'🛡',col:'var(--green)',nm:'FraudShield Studio',sb:'Anti-Fraud Campaign Studio',d:'End-to-end anti-fraud campaign production — from strategy to distribution, fully customized for each institution.',r:'service/studio'},
+      {ico:'📊',col:'#7c3aed',nm:'Trust Insight Desk',sb:'Financial Safety Research & Intelligence',d:'Monthly intelligence reports on emerging fraud patterns and consumer behavior data for institutions.',r:'service/desk'}
+    ],
+    whyT:'Why We Exist',
+    whys:[
+      {ico:'⚠',t:'₩311.6B in losses, Q1 2025 alone',d:'5,878 voice phishing cases in the first quarter. These are preventable losses.'},
+      {ico:'📉',t:'An 11.7-point literacy gap',d:'81.3% mobile banking adoption, but only 59.3/100 financial literacy. That gap is where fraud happens.'},
+      {ico:'🏦',t:'Institutions are not ready',d:'Content is too complex, campaigns are dull, education is fragmented. TRUSTORY LABS changes that.'}
+    ]
+  },
+  about:{
+    badge:'ABOUT',
+    title:'Translating financial risk\ninto human language',
+    sub:'We turn complex financial risk and fraud patterns into content, education, and campaigns that financial institutions, public agencies, and citizens can actually use.',
+    storyT:'Our Story',storyP:'TRUSTORY LABS started with one question: "Why is financial fraud prevention information so difficult and dry?" Banks and government agencies provide accurate data — but citizens struggle to understand it, let alone act on it. We bridge that gap with content, education, and campaigns.',
+    tl:[
+      {yr:'WHY',h:'The Problem',p:'Korea\'s avg digital financial literacy: 59.3/100, below the OECD target of 70. Voice phishing losses grow every year.'},
+      {yr:'WHO',h:'Who We Serve',p:'End beneficiaries are citizens, but our direct clients are banks, fintechs, and public institutions — a B2B/B2G model built for scale.'},
+      {yr:'HOW',h:'How We Work',p:'A hybrid model: content + education + campaigns + intelligence. Regulatory understanding meets creative communication.'},
+      {yr:'NOW',h:'Today',p:'Seoul-based, 5 core roles, 3 core products, building Korea\'s financial safety communication ecosystem.'}
+    ],
+    facts:[{v:'B2B/B2G',l:'Business Model'},{v:'Seoul',l:'Headquarters'},{v:'5',l:'Core Roles'},{v:'3',l:'Core Products'}],
+    valT:'Core Values',
+    vals:[
+      {ico:'🛡',t:'Trust by Design',d:'Trust and safety are built into every message and service we design — from the very start.'},
+      {ico:'📖',t:'Story with Evidence',d:'We build messages grounded in statistics, policy, and real loss data — not guesswork.'},
+      {ico:'🌍',t:'Public Impact First',d:'We measure success by understanding and prevention — not reach or vanity metrics.'},
+      {ico:'⚡',t:'Cross-functional',d:'Finance, marketing, PR, and compliance operate as one unified execution team.'}
+    ]
+  },
+  mission:{
+    badge:'WHY WE EXIST',
+    title:'Korea has two numbers.',
+    sub:'Mobile banking adoption: 81.3%. Digital financial literacy: 59.3/100. That gap is where voice phishing and financial fraud thrive. TRUSTORY LABS exists to close it.',
+    dataT:'Korea Financial Safety: 2025 Data',
+    bars:[
+      {l:'Mobile banking penetration',p:81,v:'81.3%',c:'#3182f6',src:'Bank of Korea 2024'},
+      {l:'Digital financial literacy avg',p:59,v:'59.3/100',c:'#f59e0b',src:'KCMI 2025'},
+      {l:'High-literacy group (adults)',p:28,v:'28.2%',c:'#f04452',src:'KCMI 2025'},
+      {l:'OECD financial literacy target',p:70,v:'70/100',c:'#00b96b',src:'OECD standard'},
+      {l:'Voice phishing cases, Q1 2025',p:60,v:'5,878',c:'#7c3aed',src:'NPA 2025'},
+      {l:'Voice phishing losses, Q1 2025',p:75,v:'₩311.6B',c:'#ec4899',src:'NPA 2025'}
+    ],
+    src:'Sources: Korea Capital Market Institute (2025), Bank of Korea (2024), National Police Agency (2025)',
+    appT:'Our Approach',
+    apps:[
+      {n:'01',t:'Translate to Content',d:'Turn complex financial risk into articles, videos, and cards that citizens can actually understand and share.'},
+      {n:'02',t:'Internalize via Education',d:'Build tailored digital financial literacy programs for teens, students, working adults, and seniors.'},
+      {n:'03',t:'Scale via Campaigns',d:'Design and deploy financial safety campaigns with banks, fintechs, and public agencies.'},
+      {n:'04',t:'Anticipate via Intelligence',d:'Analyze emerging fraud patterns and consumer data so institutions can respond proactively.'},
+      {n:'05',t:'Connect to Public Networks',d:'Partner with the NPA, FSS, and educational institutions to build systemic financial safety capability.'},
+      {n:'06',t:'Build Sustainable Systems',d:'Not one-off campaigns — sustainable financial safety communication systems built alongside institutions.'}
+    ],
+    faqT:'Common Questions',
+    faqs:[
+      ['Is TRUSTORY LABS a financial company?','No. We don\'t sell financial products or services directly. We help financial institutions and public organizations communicate financial safety more clearly — a TrustTech media model.'],
+      ['Why "media" company?','Our core competency is translating financial risk into compelling stories. Editorial content, video scripts, campaign messages, education materials — media production is at the center of everything we do.'],
+      ['What change do you actually create?','One prevented fraud case, one citizen who now understands financial safety — those are our real impact metrics. Our campaigns and education content have helped people recognize and avoid financial scams.']
+    ]
+  },
+  services:{
+    badge:'SERVICES',title:'Three products.\nOne purpose.',
+    sub:'Every product is designed to make financial safety faster to access, easier to understand, and wider in reach.',
+    prods:[
+      {n:'01',ico:'🎓',col:'var(--blue)',nm:'SafeFinance Academy',sb:'Financial Literacy Education Platform',d:'Modular digital financial safety education content and programs for every life stage. Ready to deploy for schools, corporations, and public institutions.',tags:['B2B','B2G','Education','Corporate HR'],r:'service/academy'},
+      {n:'02',ico:'🛡',col:'var(--green)',nm:'FraudShield Studio',sb:'Anti-Fraud Campaign Studio',d:'End-to-end anti-fraud campaign production — from strategy and content to distribution. Fully customized for banks, fintechs, and public agencies.',tags:['Banks','Fintechs','Public Sector'],r:'service/studio'},
+      {n:'03',ico:'📊',col:'#7c3aed',nm:'Trust Insight Desk',sb:'Financial Safety Research & Intelligence',d:'Monthly intelligence reports on emerging fraud patterns, consumer behavior, and risk communication strategy.',tags:['Banks','Policy Makers','Research'],r:'service/desk'}
+    ]
+  },
+  svcAcademy:{
+    badge:'PRODUCT 01',title:'SafeFinance Academy',
+    sub:'Modular digital financial safety education content and programs for every life stage — teens, students, working adults, and seniors. Ready to deploy for schools, corporations, and public institutions.',
+    tags:['B2B','B2G','Education','Corporate HR'],
+    currT:'Curriculum Structure (4 Levels, 16 Modules)',
+    curr:[
+      {badge:'LEVEL 1',name:'Digital Finance Safety Basics',mods:[
+        {n:'M01',t:'Understanding Financial Fraud',d:'60 min'},{n:'M02',t:'Mobile Banking Security Setup',d:'45 min'},
+        {n:'M03',t:'Personal Data Protection',d:'45 min'},{n:'M04',t:'How to Report Fraud',d:'60 min'}
+      ]},
+      {badge:'LEVEL 2',name:'Digital Transaction Fraud Prevention',mods:[
+        {n:'M05',t:'Voice Phishing Patterns',d:'60 min'},{n:'M06',t:'Smishing & Phishing Defense',d:'60 min'},
+        {n:'M07',t:'QR Code Scam Prevention',d:'45 min'},{n:'M08',t:'Safe Mobile Payment Use',d:'45 min'}
+      ]},
+      {badge:'LEVEL 3',name:'Investment & Loan Fraud Defense',mods:[
+        {n:'M09',t:'Spotting Illegal Investment Schemes',d:'75 min'},{n:'M10',t:'Social Media Investment Fraud',d:'60 min'},
+        {n:'M11',t:'Illegal Loan Scam Prevention',d:'60 min'},{n:'M12',t:'Crowdfunding Risk Awareness',d:'45 min'}
+      ]},
+      {badge:'LEVEL 4',name:'Crisis Response & Recovery',mods:[
+        {n:'M13',t:'Immediate Response to Fraud',d:'60 min'},{n:'M14',t:'Reporting & Refund Process',d:'60 min'},
+        {n:'M15',t:'Preventing Secondary Damage',d:'45 min'},{n:'M16',t:'Psychological Recovery Support',d:'45 min'}
+      ]}
+    ],
+    audsT:'Audience-Specific Tracks',
+    auds:[
+      {ico:'🧒',t:'Teens (Middle/High School)',d:'Integrated with school curricula, gamified quiz modules'},
+      {ico:'🎓',t:'University Students',d:'Extracurricular lectures, finance club program integration'},
+      {ico:'💼',t:'Young Professionals',d:'HR onboarding financial safety track for corporations'},
+      {ico:'👵',t:'Middle-Aged & Seniors',d:'Specialized for digitally vulnerable populations, voice phishing focus'}
+    ],
+    delivT:'Deliverables',
+    delivs:['Facilitator guide and practice worksheets','LMS PDF and slide decks','Pre/post assessment tools','Completion report (institution-branded certificate)'],
+    faqT:'Adoption FAQ',
+    faqs:[
+      ['Can we adopt just one module?','Yes, each module can run independently. However, starting with Levels 1–2 and adding Levels 3–4 yields the strongest learning outcomes.'],
+      ['Is offline instruction supported?','Both online self-directed learning and offline instruction (lectures, workshops) are supported. Blended formats can be designed to fit your institution.'],
+      ['Can completion certificates be issued?','Yes. Upon completing all modules, institution-branded certificates can be issued. Completion data can be integrated with HR systems.']
+    ]
+  },
+  svcStudio:{
+    badge:'PRODUCT 02',title:'FraudShield Studio',
+    sub:'End-to-end anti-fraud campaign production — from strategy to distribution. Fully customized to the brand of each bank, fintech, or public institution.',
+    tags:['Banks','Fintechs','Public Sector'],
+    pkgT:'6-Package Suite',
+    pkgs:[
+      {ico:'🎬',bg:'#ebf3ff',nm:'Video Package',items:['30s/60s/3min prevention video scripts','Motion graphic brief (storyboard)','Subtitle and narration guide','YouTube/Instagram/TikTok optimized versions']},
+      {ico:'📱',bg:'#e6faf0',nm:'Social Content',items:['Instagram card news (6-post set)','KakaoTalk channel image set','X (Twitter) thread draft','YouTube Shorts scenario']},
+      {ico:'🌐',bg:'#f5f3ff',nm:'Web Landing Page',items:['Campaign-specific landing wireframe','Interactive financial fraud quiz design','FAQ structure and copy guide','Conversion-optimized CTA design']},
+      {ico:'📣',bg:'#fff8e7',nm:'PR Package',items:['Press releases (Korean & English)','FAQ response templates','Crisis communication guide','Social media monitoring keyword set']},
+      {ico:'📊',bg:'#fef2f2',nm:'Performance Measurement',items:['KPI setting guide','Awareness pre/post survey design','Media exposure tracking','Final performance report template']},
+      {ico:'🔄',bg:'#e6faf0',nm:'Operations Support',items:['Content publishing calendar','Community response guide','Monthly content refresh schedule','Quarterly review sessions']}
+    ],
+    procT:'6-Week Production Process',
+    procs:[
+      {n:'W1',t:'Kickoff & Audit',d:'Goal & KPI alignment, target analysis'},
+      {n:'W2',t:'Message Design',d:'Define fraud scenarios, structure messaging'},
+      {n:'W3',t:'Content Production',d:'Video, cards, landing page creation'},
+      {n:'W4',t:'Review & Revision',d:'Risk, legal & CS joint review'},
+      {n:'W5',t:'Distribution Prep',d:'Channel upload, FAQ setup'},
+      {n:'W6',t:'Performance Analysis',d:'KPI report, improvement recommendations'}
+    ],
+    faqT:'Campaign FAQ',
+    faqs:[
+      ['How long does production take?','The standard campaign package runs 2 weeks planning, 3 weeks production, 1 week review — 6 weeks total. A 3-week fast-track is available for urgent campaigns.'],
+      ['Who owns the content copyright?','All content produced by FraudShield Studio belongs to the commissioning institution. No additional licensing fees for re-editing, re-use, or internal distribution.'],
+      ['Is this available for smaller fintechs?','Absolutely. Packages and pricing are scaled to organization size, from large banks to early-stage fintechs.']
+    ]
+  },
+  svcDesk:{
+    badge:'PRODUCT 03',title:'Trust Insight Desk',
+    sub:'Monthly intelligence reports on emerging fraud trends, financial consumer behavior, and risk communication strategy. Data-driven insights that help institutions stay ahead of threats.',
+    tags:['Banks','Policy Makers','Research'],
+    rptT:'Monthly Report Structure',
+    rptSecs:[
+      {n:'01',nm:'Top 5 Fraud Methods This Month',pg:'p.04–10'},
+      {n:'02',nm:'Voice Phishing Statistics & Trends',pg:'p.11–18'},
+      {n:'03',nm:'Digital Financial Consumer Behavior',pg:'p.19–25'},
+      {n:'04',nm:'Risk Communication Strategy Recommendations',pg:'p.26–32'},
+      {n:'05',nm:'Institution-Specific Response Guides',pg:'p.33–38'},
+      {n:'06',nm:'Next Month\'s Anticipated Risk Signals',pg:'p.39–42'}
+    ],
+    catsT:'Intelligence Categories',
+    cats:[
+      {ico:'🔍',t:'Fraud Pattern Monitoring',d:'Weekly tracking of new voice phishing, phishing, and smishing methods'},
+      {ico:'📈',t:'Consumer Behavior Analysis',d:'Financial literacy and vulnerability pattern data analysis'},
+      {ico:'⚠',t:'Early Warning Briefings',d:'Immediate alerts and response guides for surging fraud types'},
+      {ico:'🗺',t:'Policy Monitoring',d:'Weekly tracking of FSC, FSS, and NPA regulatory changes'}
+    ],
+    faqT:'Subscription FAQ',
+    faqs:[
+      ['How is the report delivered?','PDF format, delivered to the designated contact at subscribing institutions in the first week of each month. Intranet integration is also supported.'],
+      ['Where does the data come from?','Only credible public sources: NPA statistics, FSS consumer damage data, KISA cyber incident reports, and our own monitoring data.'],
+      ['Can we request custom analysis?','Yes, depending on your subscription plan, custom institution-specific analysis can be requested. Contact us for details.']
+    ]
+  },
+  clients:{
+    badge:'CLIENTS',title:'Who we work\nwith and why',
+    sub:'The end beneficiaries are citizens and financial users. Our direct clients are the institutions responsible for serving them.',
+    tabs:[{id:'all',l:'All'},{id:'bank',l:'Banks'},{id:'fintech',l:'Fintechs'},{id:'public',l:'Public Sector'},{id:'edu',l:'Education'}],
+    clis:[
+      {type:'bank',ico:'🏦',bg:'#ebf3ff',nm:'Commercial & Specialty Banks',sub:'Major Korean banks and internet-only banks',svcs:['Voice phishing prevention customer guidance content','Non-face-to-face transaction safety education materials','Crisis communication support for fraud incidents','Financial safety education for vulnerable populations','Trust Insight Desk monthly risk briefings']},
+      {type:'fintech',ico:'💳',bg:'#e6faf0',nm:'Fintechs & Payment Platforms',sub:'Mobile payments, digital banks, crowdfunding platforms',svcs:['Financial safety onboarding content for app users','Payment fraud prevention UI/UX message guidelines','Service trust brand campaign planning','FDS customer communication optimization','Investment and lending consumer protection content']},
+      {type:'public',ico:'🏛',bg:'#fff8e7',nm:'Government & Public Institutions',sub:'FSC, FSS, National Police Agency, local governments',svcs:['Citizen-facing financial fraud prevention campaigns','Digitally vulnerable population specialized education','Policy communication content and press release support','SafeFinance Academy public curriculum supply','Inter-agency campaign planning and production']},
+      {type:'edu',ico:'🎓',bg:'#f5f3ff',nm:'Universities & Educational Institutions',sub:'4-year universities, community colleges, high schools',svcs:['Financial literacy curriculum integration programs','Student financial safety lectures and workshops','Youth financial fraud prevention education modules','Faculty financial safety capability building','Campus campaigns with financial clubs']}
+    ],
+    modelT:'Business Model',modelD:'Institutions commission TRUSTORY LABS to produce content, education, and campaigns — the results reach citizens and financial users.',
+    modelItems:[{t:'Campaign Projects',d:'Custom institutional fraud prevention campaigns'},{t:'Education Packages',d:'Academy module licensing and operations'},{t:'Research Subscriptions',d:'Trust Insight Desk monthly subscriptions'},{t:'Retainer Operations',d:'Ongoing content operations and crisis response'}]
+  },
+  careers:{
+    badge:'JOIN US',title:'Grow with\nTRUSTORY LABS',
+    sub:'Join the team redesigning financial safety. Finance, marketing, PR, security, and risk roles — all connected under one mission.',
+    c1:'View Open Roles',c2:'See Our Process',
+    qls:[{ico:'🎨',t:'Culture',d:'How we work',r:'culture'},{ico:'🎁',t:'Benefits',d:'Real rewards you\'ll actually feel',r:'benefits'},{ico:'📋',t:'Hiring Process',d:'From apply to offer',r:'process'},{ico:'💼',t:'Open Roles',d:'Currently hiring',r:'jobs'}],
+    nums:[{v:'5',u:'',l:'Open positions'},{v:'~6',u:'wks',l:'Average hiring timeline'},{v:'100',u:'%',l:'All applicants receive a decision'},{v:'B2B',u:'/G',l:'Business model'}],
+    whyT:'Why TRUSTORY LABS?',
+    whys:[{ico:'🎯',t:'Roles that actually connect',d:'Finance, marketing, PR, security, and risk all operate within one business structure. Your expertise finally has real context.'},{ico:'🌍',t:'Impact and growth aligned',d:'Our business growth directly strengthens Korean citizens\' financial safety. Commercial success and social impact point the same direction.'},{ico:'⚡',t:'Speed and autonomy',d:'Fast cycles from idea to execution. Grow as a domain expert in an environment that trusts you.'}]
+  },
+  culture:{
+    badge:'CULTURE',title:'How we work',
+    sub:'TRUSTORY LABS\' culture starts from one belief: information gains power when it\'s simple. Make the complex accessible, make the difficult approachable.',
+    vals:[
+      {ico:'🔍',n:'01',t:'Transparent Communication',d:'Information becomes powerful when shared. We make decision-making processes visible so every team member understands the company\'s direction.'},
+      {ico:'🚀',n:'02',t:'Execution Over Planning',d:'Fast execution and learning beat perfect plans. Try, fail, improve — that\'s our growth cycle.'},
+      {ico:'🤝',n:'03',t:'Collaboration & Cross-learning',d:'Finance experts who understand marketing. PR experts who grasp compliance. Cross-discipline collaboration is our competitive edge.'},
+      {ico:'📐',n:'04',t:'Obsession with Detail',d:'Inaccurate financial safety information is more dangerous than none. We obsess over facts and precision of expression.'}
+    ],
+    dayT:'A Day at TRUSTORY LABS',dayD:'Our culture in concrete terms.',
+    days:[
+      {t:'09:00',h:'Daily Standup',p:'15 minutes. What we did, what we\'re doing, blockers. Everyone shares the same context.'},
+      {t:'10:00–12:00',h:'Deep Work Block',p:'No interruptions. The only time turning off Slack notifications is actively encouraged.'},
+      {t:'13:00–14:00',h:'Lunch & Team Brunch',p:'Meal support provided. Sometimes together, sometimes apart — always pressure-free.'},
+      {t:'14:00–16:00',h:'Collaboration Time',p:'Cross-team meetings, partner calls, review sessions.'},
+      {t:'16:00–18:00',h:'Wrap-up & Documentation',p:'Record today\'s results, prepare for tomorrow. Written docs over verbal reports.'},
+      {t:'Flex',h:'Flexible Hours',p:'Core hours 10:00–16:00. Adjust the rest to fit your working style.'}
+    ],
+    envT:'Work Environment',
+    envs:[{ico:'🏢',t:'Hybrid Work',d:'3 days office / 2 days remote.'},{ico:'💻',t:'Equipment',d:'Choose MacBook or high-spec Windows. Peripherals fully provided.'},{ico:'☕',t:'Office Space',d:'Central Seoul location. Standing desk option available.'},{ico:'📚',t:'Books & Learning',d:'₩50,000/mo book budget. Team book club.'}]
+  },
+  benefits:{
+    badge:'BENEFITS',title:'Benefits designed\nto actually use',
+    sub:'Not a list no one reads — a reward structure that\'s felt every working day.',
+    cats:[
+      {ico:'💰',t:'Compensation & Performance',d:'Competitive base with performance-driven rewards',bg:'#ebf3ff',ibg:'#dbeafe',icol:'#1d4ed8',
+        items:[{ic:'💵',t:'Competitive Base Salary',d:'Industry top-tier, reviewed annually'},{ic:'🏆',t:'Performance Bonus',d:'Semi-annual KPI-based bonus'},{ic:'💹',t:'Profit Sharing',d:'Share of profit above 5% operating margin'},{ic:'🎯',t:'Project Incentives',d:'Team incentives for outstanding project completions'},{ic:'📈',t:'Clear Career Path',d:'Public promotion criteria and standards'},{ic:'⏰',t:'OT Compensation',d:'Comp time or pay for overtime hours'}]},
+      {ico:'❤',t:'Health & Family',d:'We care about you and your family',bg:'#fef2f2',ibg:'#fee2e2',icol:'#dc2626',
+        items:[{ic:'🏥',t:'Health Screening',d:'Annual checkup for employee + family support'},{ic:'🧠',t:'Mental Health',d:'6 free counseling sessions per year'},{ic:'💊',t:'Wellness Allowance',d:'₩50,000/mo for gym, yoga, pilates, etc.'},{ic:'👶',t:'Family Support',d:'Wedding, birth, bereavement leave + allowance'},{ic:'🏖',t:'Refresh Program',d:'Refresh leave + vacation fund at 3-year tenure'},{ic:'🏨',t:'Partner Resorts',d:'Employee discount at partner hotels and resorts'}]},
+      {ico:'📚',t:'Growth & Learning',d:'We fund your development',bg:'#f5f3ff',ibg:'#ede9fe',icol:'#7c3aed',
+        items:[{ic:'📖',t:'Learning Budget',d:'₩2M/yr for education (online & offline)'},{ic:'🎓',t:'Certification Support',d:'100% coverage for work-relevant certifications'},{ic:'🌍',t:'Conferences',d:'Conference and forum attendance expenses covered'},{ic:'🤝',t:'Expert Mentoring',d:'Quarterly 1:1 sessions with external experts'},{ic:'📚',t:'Books & Articles',d:'₩50K/mo book budget + article subscription'},{ic:'🚀',t:'Onboarding Roadmap',d:'30/60/90-day structured growth guide'}]},
+      {ico:'🏡',t:'Work & Life',d:'We protect your work-life balance',bg:'#f0fdf4',ibg:'#d1fae5',icol:'#059669',
+        items:[{ic:'🏢',t:'Hybrid Work',d:'3 days office, 2 days remote (role-dependent)'},{ic:'⏰',t:'Flexible Hours',d:'Core hours 10–16, rest is flexible'},{ic:'🌴',t:'15+ Vacation Days',d:'15 days from year 1, +1 day each year'},{ic:'🍽',t:'Meal Support',d:'₩100,000/mo lunch allowance'},{ic:'💻',t:'Full Equipment',d:'Laptop, monitors, peripherals all provided'},{ic:'🎁',t:'Holiday Gifts',d:'Chuseok and Lunar New Year gifts or vouchers'}]}
+    ]
+  },
+  process:{
+    badge:'HOW WE HIRE',title:'Our hiring process.\nFully transparent.',
+    sub:'Every stage, timeline, and evaluation criterion is disclosed upfront so you can prepare with confidence.',
+    steps:[
+      {n:'01',t:'Application',d:'Resume + cover letter\nSelect your role'},
+      {n:'02',t:'Screening',d:'Rubric-based\ndocument review'},
+      {n:'03',t:'Work Sample',d:'Role-specific task\n60–90 min'},
+      {n:'04',t:'First Interview',d:'Structured assessment\nrole fit evaluation'},
+      {n:'05',t:'Final Interview',d:'Panel interview\nwith team leads'},
+      {n:'✓',t:'Offer & Onboard',d:'Final offer letter\n30/60/90-day plan',done:true}
+    ],
+    detT:'Step-by-Step Guide',
+    dets:[
+      {n:'STEP 01',t:'Application',p:'Submit your resume and a cover letter (approx. 1,000 words). Portfolio is optional but recommended for Marketing and PR roles. We do not request photos, age, gender, hometown, or other job-irrelevant personal information.',tip:'📌 Focus on relevant work experience. Problem-solving stories matter more than credentials.',done:false},
+      {n:'STEP 02',t:'Screening',p:'All applicants are reviewed against the same evaluation rubric. We notify every applicant of the result within 1 week of review completion. No one is left without an answer.',tip:'📌 Average review time: 3–5 business days. Questions? Email careers@trustorylabs.com anytime.',done:false},
+      {n:'STEP 03',t:'Work Sample',p:'A role-specific task that mirrors real TRUSTORY LABS work scenarios. Designed to take 60–90 minutes. We evaluate your approach and thinking process — not just the final answer.',tip:'📌 There\'s no single right answer. Show us how you think through a real problem.',done:false},
+      {n:'STEP 04',t:'First Interview',p:'Structured interview with pre-disclosed evaluation criteria. We assess role fit, situational judgment, and communication quality. Available as video or in-person, approx. 60 minutes.',tip:'📌 Evaluation criteria are shared in advance. We want you to come fully prepared.',done:false},
+      {n:'STEP 05',t:'Final Interview',p:'Panel interview including team leads and senior leadership. We discuss team fit, long-term career goals, and alignment with the company\'s mission. Conversational, not one-sided.',tip:'📌 Ask us your hardest questions. We want this to be your best decision too.',done:false},
+      {n:'STEP ✓',t:'Offer & Onboarding',p:'Final offer letter issued with full compensation details. 30/60/90-day structured onboarding provided. An onboarding buddy is assigned from day one. Reference checks conducted only with written consent.',tip:'📌 An onboarding buddy (Buddy) is assigned to you on your first day.',done:true}
+    ],
+    fairT:'Fair Hiring Principles',
+    fairs:[
+      {ico:'⚖',t:'Job-Relevant Info Only',p:'No photos, age, gender, family background, or school names requested.'},
+      {ico:'📊',t:'Rubric-Based Evaluation',p:'The same evaluation criteria applied equally to every single applicant.'},
+      {ico:'🔒',t:'Data Protection',p:'Personal data used only for hiring. Deleted per policy after the hiring cycle closes.'},
+      {ico:'📩',t:'Decisions for Everyone',p:'Every applicant receives a decision — regardless of outcome. No ghosting, ever.'}
+    ],
+    faqT:'Hiring FAQ',
+    faqs:[
+      ['Is there a GPA or school requirement?','None. TRUSTORY LABS evaluates relevant experience and capability over academic background.'],
+      ['Can recent graduates apply?','Yes. Several positions are open to 0–3 years of experience, including recent graduates.'],
+      ['Are interviews conducted in English?','Most interviews are in Korean. However, business English writing proficiency is a baseline requirement for all roles.'],
+      ['Can I apply to multiple positions?','One position per hiring cycle, please. Choose the role that best fits your background.'],
+      ['How long does the process take?','Our target is approximately 6 weeks from application to final offer. You\'ll be updated at every stage.']
+    ]
+  },
+  jobs:{
+    badge:'OPEN POSITIONS',title:'Now hiring.',
+    sub:'5 positions, all Seoul-based hybrid. Click any card for the full job description.',
+    ftit:'Filter',fdept:'Department',ftype:'Employment Type',fexp:'Experience',rst:'Reset',
+    depts:['All','Finance','Marketing','Publishing','Security','Risk'],
+    types:['All','Full-time'],exps:['All','0–3 yrs','1–3 yrs','1–4 yrs','Public sector background'],
+    noR:'No positions match your filters.',
+    list:[
+      {id:'fin',dept:'Finance',title:'Finance & People Ops Associate',tags:['Seoul · Hybrid','Full-time','0–3 yrs exp'],desc:'Manages budget support, recruiting workflow, evaluation records, offer letters, and onboarding processes.',type:'Full-time',exp:'0–3 yrs'},
+      {id:'mkt',dept:'Marketing',title:'Digital Trust Campaign Manager',tags:['Seoul · Hybrid','Full-time','1–3 yrs exp'],desc:'Plans and executes financial safety campaigns from concept through performance analysis.',type:'Full-time',exp:'1–3 yrs'},
+      {id:'pr',dept:'Publishing',title:'Editorial Content Producer',tags:['Seoul · Hybrid','Full-time','1–4 yrs exp'],desc:'Creates editorial, short-form, and PR content that makes financial safety clear and actionable.',type:'Full-time',exp:'1–4 yrs'},
+      {id:'sec',dept:'Security',title:'Fraud Prevention Advisor',tags:['Seoul · Hybrid','Full-time','Public sector background preferred'],desc:'Ensures accuracy and credibility of fraud-prevention content from a law enforcement perspective.',type:'Full-time',exp:'Public sector background'},
+      {id:'rsk',dept:'Risk',title:'Transaction Risk & Compliance Analyst',tags:['Seoul · Hybrid','Full-time','0–3 yrs exp'],desc:'Analyzes high-risk transaction patterns and maintains internal compliance operations.',type:'Full-time',exp:'0–3 yrs'}
+    ]
+  },
+  jds:{
+    fin:{dept:'Finance & Strategy',title:'Finance & People Ops Associate',tags:['Seoul · Hybrid','Full-time','0–3 yrs exp'],
+      sum:'An integrated role covering budget management, recruiting operations, evaluation record-keeping, and onboarding support. You ensure TRUSTORY LABS operates on a fair and efficient foundation.',
+      resps:['Support annual budget planning and monitor monthly expenditures','Coordinate recruiting pipeline scheduling and all candidate communications','Systematize evaluation records and data across all hiring stages','Manage offer letters and onboarding checklists for final candidates','Process project invoices, payment schedules, and expense records','Maintain hiring data privacy in compliance with applicable regulations','Write and continuously improve operational SOPs'],
+      quals:['Background in business, accounting, HR, or public policy','Proficiency in spreadsheet-based data management and documentation','Ability to manage high-volume scheduling and communications with precision','Business English writing proficiency (intermediate or above)','[Preferred] Computer Proficiency Cert, MOS Excel Expert, or ADsP'],
+      proc:'Document screening → Work sample (budget & recruiting simulation) → First interview → Final interview → Offer',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'0–3 years',sal:'By company policy',dl:'Rolling',team:'Operations'}},
+    mkt:{dept:'Marketing',title:'Digital Trust Campaign Manager',tags:['Seoul · Hybrid','Full-time','1–3 yrs exp'],
+      sum:'Lead the full campaign cycle — from strategy and message design through execution and performance measurement. You turn complex financial risk into campaigns people actually engage with.',
+      resps:['Plan and execute anti-fraud and digital financial literacy campaigns','Design messages grounded in research, policy shifts, and fraud patterns','Collaborate on web pages, newsletters, videos, and card-news production','Manage partner projects with banks, fintechs, and public institutions','Set, measure, and improve campaign KPIs (reach, engagement, conversion)'],
+      quals:['Background in marketing, communications, business, or media','Ability to turn complex information into clear, compelling narratives','Business English proficiency for content and partner communications','[Preferred] Content planning or campaign management experience'],
+      proc:'Document + (optional) portfolio → Campaign brief task → First interview → Final interview → Offer',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'1–3 years',sal:'By company policy',dl:'Rolling',team:'Marketing'}},
+    pr:{dept:'Content & Publishing',title:'Editorial Content Producer',tags:['Seoul · Hybrid','Full-time','1–4 yrs exp'],
+      sum:'A multi-format editor who transforms financial safety information into articles, video scripts, card news, and PR materials that citizens actually want to read, share, and act on.',
+      resps:['Produce article-style and newsletter content on financial fraud and digital literacy','Script short-form videos and design social media card news for multiple channels','Structure press releases, FAQs, and public-facing communications','Develop PR campaign storytelling for bank, institutional, and education partners','Coordinate content distribution across media partners and owned channels'],
+      quals:['Background in journalism, English, publishing, media, or PR','Ability to translate complex information into language everyday people understand','Business writing in both Korean and English','[Preferred] Multi-channel content production experience (SNS, YouTube, newsletters)'],
+      proc:'Document + portfolio → Content production task → First interview → Final interview → Offer',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'1–4 years',sal:'By company policy',dl:'Rolling',team:'Content'}},
+    sec:{dept:'Public Safety & Advisory',title:'Fraud Prevention Advisor',tags:['Seoul · Hybrid','Full-time','Public sector background preferred'],
+      sum:'You bring law enforcement and public-sector expertise to ensure the accuracy and credibility of TRUSTORY LABS\' fraud-prevention content and advisory services.',
+      resps:['Review all content for fraud scenario accuracy and prevention credibility','Monitor latest voice phishing, impersonation, and electronic fraud trends','Serve as liaison with the NPA, FSS, and other public agencies','Consult on crime prevention modules within SafeFinance Academy','Support development of operational data protection SOPs'],
+      quals:['Background in criminal justice, law, public administration, or security','Professional understanding of fraud prevention and compliance','Experience with public agency collaboration and structured documentation','[Preferred] Experience at NPA, FSS, MOEF, or related agencies'],
+      proc:'Document screening → Work sample (fraud scenario review & analysis) → First interview → Final interview → Offer',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'Public sector preferred',sal:'By company policy',dl:'Rolling',team:'Safety & Advisory'}},
+    rsk:{dept:'Risk & Compliance',title:'Transaction Risk & Compliance Analyst',tags:['Seoul · Hybrid','Full-time','0–3 yrs exp'],
+      sum:'You ensure TRUSTORY LABS\' services are legally sound and operationally trustworthy through high-risk transaction analysis, compliance documentation, and internal process management.',
+      resps:['Analyze high-risk transaction patterns and draft risk communication materials','Write and maintain operational SOPs and compliance checklists','Review and coordinate partner institution compliance documentation','Support data collection and dashboard reporting for risk indicators','Assist with personal data handling compliance with ISMS-P standards'],
+      quals:['Background in business, finance, law, hospitality, tourism, or risk management','Precise judgment and thorough record-keeping in high-stakes environments','Proficiency in spreadsheet-based data work and documentation','Business English writing proficiency'],
+      proc:'Document screening → Work sample (risk analysis & SOP writing) → First interview → Final interview → Offer',
+      info:{loc:'Seoul, South Korea',type:'Full-time · Hybrid',exp:'0–3 years',sal:'By company policy',dl:'Rolling',team:'Risk & Compliance'}}
+  },
+  contact:{
+    badge:'CONTACT',title:'Get in touch.',
+    sub:'Careers, partnerships, service inquiries — reach out about anything. We respond within 2 business days.',
+    dets:[{ico:'✉',l:'Email',v:'contact@trustorylabs.com'},{ico:'📧',l:'Careers',v:'careers@trustorylabs.com'},{ico:'☎',l:'Phone',v:'+82-2-555-1030'},{ico:'📍',l:'Location',v:'Seoul, South Korea'},{ico:'⏰',l:'Hours',v:'Mon–Fri 9:00 AM – 6:00 PM KST'}],
+    fmT:'Send a Message',fmS:'We\'ll respond as quickly as we can.',
+    fl:['Full Name','Email','Inquiry Type','Message','Send Message'],
+    fp:['Your full name','your@email.com','Select inquiry type','Write your message here'],
+    ftypes:['Careers Inquiry','Service Adoption','Partnership Proposal','Media & PR','Other'],
+    sent:'Sent ✓ We\'ll be in touch shortly.'
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ROUTING
+═══════════════════════════════════════════════════════════ */
+const CAREER_ROUTES=['careers','culture','benefits','process','jobs'];
+function go(r){location.hash=r}
+function isCareer(r){const base=r.split('/')[0];return CAREER_ROUTES.includes(base)||base==='job'||base==='apply'}
+function d(){return L==='en'?EN:KO}
+
+window.addEventListener('hashchange',handleRoute);
+window.addEventListener('load',handleRoute);
+
+function handleRoute(){
+  const raw=(location.hash||'#home').slice(1)||'home';
+  const parts=raw.split('/');
+  const route=parts[0],sub=parts[1]||null;
+  const html=renderPage(route,sub);
+  const app=document.getElementById('app');
+  app.innerHTML='<div class="page on">'+html+'</div>';
+  window.scrollTo({top:0,behavior:'instant'});
+  updateChrome(route);
+  bindUI(route);
+}
+function updateChrome(route){
+  document.getElementById('n-sub').textContent=d().navSub;
+  document.getElementById('n-cta').textContent=d().navCta;
+  document.getElementById('l-ko').className=L==='ko'?'on':'';
+  document.getElementById('l-en').className=L==='en'?'on':'';
+  document.getElementById('n-lk').innerHTML=d().nl.map(n=>`<button class="${route===n.r?'on':''}" onclick="go('${n.r}')">${n.l}</button>`).join('');
+  const sn=document.getElementById('sn');
+  sn.className=isCareer(route)?'show':'';
+  document.getElementById('sn-w').innerHTML=d().cs.map(n=>`<button class="snb${route===n.r?'on':''}" onclick="go('${n.r}')">${n.l}</button>`).join('');
+  renderFooter();
+}
+function bindUI(route){
+  document.querySelectorAll('.fqq').forEach(btn=>{
+    btn.onclick=function(){
+      const item=this.parentElement;
+      const was=item.classList.contains('on');
+      document.querySelectorAll('.fqi').forEach(f=>f.classList.remove('on'));
+      if(!was)item.classList.add('on');
+    };
+  });
+  if(route==='jobs')bindFilter();
+}
+function setLang(l){
+  L=l;
+  document.getElementById('l-ko').className=l==='ko'?'on':'';
+  document.getElementById('l-en').className=l==='en'?'on':'';
+  const raw=(location.hash||'#home').slice(1)||'home';
+  const parts=raw.split('/');
+  const route=parts[0],sub=parts[1]||null;
+  const html=renderPage(route,sub);
+  document.getElementById('app').innerHTML='<div class="page on">'+html+'</div>';
+  window.scrollTo({top:0,behavior:'instant'});
+  updateChrome(route);
+  bindUI(route);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════════ */
+function faqHTML(arr,dark=false){
+  return arr.map((f,i)=>`<div class="fqi${dark?' dk':''}"><button class="fqq">${f[0]}<span class="fqico">+</span></button><div class="fqa"><p>${f[1]}</p></div></div>`).join('');
+}
+function tagsHTML(tags,cls='tb'){
+  const cc=['tb','tg2','ta','td','tw'];
+  return tags.map((t,i)=>`<span class="tg ${cc[i%cc.length]}">${t}</span>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE RENDERS
+═══════════════════════════════════════════════════════════ */
+function renderPage(route,sub){
+  switch(route){
+    case 'about': return pgAbout();
+    case 'mission': return pgMission();
+    case 'services': return pgServices();
+    case 'service': return pgServiceSub(sub);
+    case 'clients': return pgClients();
+    case 'careers': return pgCareers();
+    case 'culture': return pgCulture();
+    case 'benefits': return pgBenefits();
+    case 'process': return pgProcess();
+    case 'jobs': return pgJobs();
+    case 'job': return pgJobDetail(sub);
+    case 'apply': return pgApply(sub);
+    case 'contact': return pgContact();
+    default: return pgHome();
+  }
+}
+
+/* ── HOME ── */
+function pgHome(){
+  const h=d().home;
+  return `
+<section class="hhero">
+  <div class="W hhi">
+    <div class="hgrid">
+      <div>
+        <div class="hbadge"><span class="hbd"></span><span>${h.badge}</span></div>
+        <div class="htitle">${h.t1}<br><em>${h.t2}</em></div>
+        <p class="hsub">${h.sub}</p>
+        <div class="hacts">
+          <button class="bp" onclick="go('about')">${h.c1} →</button>
+          <button class="bs" onclick="go('careers')">${h.c2}</button>
+        </div>
+      </div>
+      <div class="hrc">
+        ${h.hvc.map(c=>`<div class="hvc"><div class="hvcv">${c.v}<em>${c.u}</em></div><div class="hvcl">${c.l}</div></div>`).join('')}
+        <div class="halert"><div class="hai">⚠</div><div class="halt"><strong>${h.alert.t}</strong><p>${h.alert.b}</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hstrip"><div class="W hsgrid">
+    ${h.hvc.map(c=>`<div class="hsitem"><div class="hsv">${c.v}<em>${c.u}</em></div><div class="hsl">${c.l}</div></div>`).join('')}
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${h.prodT}</span>
+      <h2 class="hd2" style="margin-bottom:12px">${L==='en'?'Three products. One purpose.':'세 가지 제품으로<br>금융 안전을 설계합니다'}</h2>
+      <p class="sub">${h.prodD}</p>
+    </div>
+    <div class="prow">
+      ${h.prods.map(p=>`
+      <div class="pc" onclick="go('${p.r}')">
+        <div class="pcico">${p.ico}</div>
+        <div class="pcnm">${p.nm}</div>
+        <div class="pcsb" style="color:${p.col}">${p.sb}</div>
+        <div class="pcd">${p.d}</div>
+        <div class="pclk">${L==='en'?'Learn more →':'자세히 보기 →'}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="secD">
+  <div class="W">
+    <span class="ey eyW">${h.whyT}</span>
+    <h2 class="hd2" style="color:#fff;margin-bottom:36px">${L==='en'?'Finance is universal. Safety is not yet.':'금융은 보편화됐습니다.<br>안전은 아직 따라오지 못했습니다.'}</h2>
+    <div class="g3">
+      ${h.whys.map(w=>`
+      <div class="cdk">
+        <div style="font-size:28px;margin-bottom:14px">${w.ico}</div>
+        <h3 style="font-size:17px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.02em">${w.t}</h3>
+        <p style="font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.75">${w.d}</p>
+      </div>`).join('')}
+    </div>
+    <div style="margin-top:36px;display:flex;flex-wrap:wrap;gap:12px">
+      <button class="bp" onclick="go('mission')">${L==='en'?'Explore Our Mission →':'미션 알아보기 →'}</button>
+      <button class="bs" onclick="go('careers')">${L==='en'?'Join the Team':'팀에 합류하기'}</button>
+    </div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${L==='en'?'The Problem in Numbers':'데이터로 보는 문제'}</span>
+      <h2 class="hd2">${L==='en'?'Why now. Why Korea.':'왜 지금, 왜 한국인가'}</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <div style="background:#0c1321;border-radius:24px;padding:36px">
+          ${d().mission.bars.map(b=>`
+          <div class="dbr">
+            <div class="dbl">${b.l}</div>
+            <div class="dbt"><div class="dbf" style="width:${b.p}%;background:${b.c}"></div></div>
+            <div class="dbv" style="color:${b.c}">${b.v}</div>
+          </div>`).join('')}
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6">${d().mission.src}</p>
+      </div>
+      <div>
+        <h3 class="hd3" style="margin-bottom:20px">${L==='en'?'Closing that gap':'이 격차를 메우는 일'}</h3>
+        <div style="display:grid;gap:14px">
+          ${d().mission.apps.slice(0,4).map(ap=>`
+          <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--sh)">
+            <div style="background:var(--blue-l);color:var(--blue);font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:100px;flex-shrink:0;margin-top:2px">${ap.n}</div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px">${ap.t}</div>
+              <div style="font-size:13px;color:var(--muted);line-height:1.65">${ap.d}</div>
+            </div>
+          </div>`).join('')}
+        </div>
+        <div style="margin-top:20px"><button class="bd" onclick="go('mission')">${L==='en'?'View Full Mission →':'미션 전체 보기 →'}</button></div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── ABOUT ── */
+function pgAbout(){
+  const a=d().about;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${a.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${a.title}</h1>
+    <p class="sub subW">${a.sub}</p>
+  </div>
+</section>
+<section class="sec">
+  <div class="W">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:64px">
+      <div>
+        <h2 class="hd2" style="margin-bottom:18px">${a.storyT}</h2>
+        <p style="font-size:16px;color:var(--muted);line-height:1.85">${a.storyP}</p>
+        <div style="margin-top:28px;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:24px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#111827,var(--blue));display:grid;place-items:center">
+              <svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="white" stroke-width="2" fill="rgba(255,255,255,.2)"/><polyline points="9,12 11,14 15,10" stroke="#3182f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:800;color:var(--ink)">TRUSTORY LABS</div>
+              <div style="font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.12em;text-transform:uppercase">TrustTech Media · Seoul</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--muted);line-height:1.7">${L==='en'?'A B2B/B2G TrustTech media company producing anti-fraud content, financial literacy education, and public-interest campaigns.':'금융사기 예방·디지털 금융이해력 교육·공익 캠페인 콘텐츠를 만드는 B2B/B2G TrustTech 미디어 기업입니다.'}</p>
+        </div>
+      </div>
+      <div class="tl">
+        ${a.tl.map(t=>`<div class="tlitem"><div class="tldot"></div><div class="tlyr">${t.yr}</div><div class="tlh">${t.h}</div><div class="tlp">${t.p}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="factgrid">
+      ${a.facts.map(f=>`<div class="factc"><div class="factv">${f.v}</div><div class="factl">${f.l}</div></div>`).join('')}
+    </div>
+  </div>
+</section>
+<section class="secB">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${a.valT}</span>
+      <h2 class="hd2">${L==='en'?'How we work':'우리가 일하는 방식'}</h2>
+    </div>
+    <div class="g4">
+      ${a.vals.map(v=>`<div class="card"><div style="font-size:28px;margin-bottom:13px">${v.ico}</div><h3 style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px">${v.t}</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">${v.d}</p></div>`).join('')}
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── MISSION ── */
+function pgMission(){
+  const m=d().mission;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${m.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:18px">${m.title}</h1>
+    <p class="sub subW">${m.sub}</p>
+  </div>
+</section>
+<section class="secD">
+  <div class="W">
+    <h2 class="hd2" style="color:#fff;margin-bottom:36px">${m.dataT}</h2>
+    ${m.bars.map(b=>`
+    <div class="dbr">
+      <div class="dbl">${b.l}<br><span style="font-size:11px;opacity:.45">${b.src}</span></div>
+      <div class="dbt"><div class="dbf" style="width:${b.p}%;background:${b.c}"></div></div>
+      <div class="dbv" style="color:${b.c}">${b.v}</div>
+    </div>`).join('')}
+    <p style="font-size:11.5px;color:rgba(255,255,255,.3);margin-top:16px;line-height:1.6">${m.src}</p>
+  </div>
+</section>
+<section class="secB">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${m.appT}</span>
+      <h2 class="hd2">${L==='en'?'6 ways we close the gap':'격차를 메우는 6가지 방식'}</h2>
+    </div>
+    <div class="g3">
+      ${m.apps.map(ap=>`
+      <div class="card" style="position:relative;overflow:hidden">
+        <div style="position:absolute;top:-10px;right:14px;font-size:60px;font-weight:800;color:var(--line);line-height:1;pointer-events:none">${ap.n}</div>
+        <div style="display:inline-block;background:var(--blue-l);color:var(--blue);font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:100px;letter-spacing:.06em;margin-bottom:13px;position:relative;z-index:1">${ap.n}</div>
+        <h3 style="font-size:17px;font-weight:800;color:var(--ink);margin-bottom:9px;position:relative;z-index:1">${ap.t}</h3>
+        <p style="font-size:13.5px;color:var(--muted);line-height:1.75;position:relative;z-index:1">${ap.d}</p>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>
+<section class="secD">
+  <div class="Ws">
+    <h2 class="hd2" style="color:#fff;margin-bottom:32px">${m.faqT}</h2>
+    ${faqHTML(m.faqs,true)}
+  </div>
+</section>`;
+}
+
+/* ── SERVICES ── */
+function pgServices(){
+  const s=d().services;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${s.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${s.title}</h1>
+    <p class="sub subW">${s.sub}</p>
+  </div>
+</section>
+<section class="sec">
+  <div class="W">
+    <div style="display:grid;gap:28px">
+      ${s.prods.map((p,i)=>`
+      <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+        <div style="${i%2===1?'order:2':''}">
+          <div style="display:inline-block;background:var(--blue-l);color:var(--blue);font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:100px;letter-spacing:.06em;margin-bottom:14px">PRODUCT ${p.n}</div>
+          <div style="font-size:40px;margin-bottom:12px">${p.ico}</div>
+          <h2 style="font-size:26px;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-bottom:6px">${p.nm}</h2>
+          <p style="font-size:13px;font-weight:600;color:${p.col};margin-bottom:12px">${p.sb}</p>
+          <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:18px">${p.d}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px">${tagsHTML(p.tags)}</div>
+          <button class="bp" onclick="go('${p.r}')">${L==='en'?'Learn more →':'자세히 보기 →'}</button>
+        </div>
+        <div style="${i%2===1?'order:1':''}">
+          <div style="background:var(--bg);border:1px solid var(--line);border-radius:22px;height:220px;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden">
+            ${p.ico}
+            <div style="position:absolute;bottom:16px;left:16px;right:16px;background:rgba(255,255,255,.9);border-radius:12px;padding:12px 16px;font-size:12.5px;color:var(--ink2);font-weight:600">
+              ${p.tags.map(t=>`<span style="margin-right:8px">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── SERVICE SUBS ── */
+function pgServiceSub(id){
+  if(id==='academy') return pgAcademy();
+  if(id==='studio') return pgStudio();
+  if(id==='desk') return pgDesk();
+  return pgServices();
+}
+
+function pgAcademy(){
+  const s=d().svcAcademy;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+60px) 0 56px;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 85% 50%,rgba(49,130,246,.16),transparent);pointer-events:none"></div>
+  <div class="W" style="position:relative;z-index:1">
+    <button style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.4);font-size:13px;margin-bottom:16px;font-family:var(--f)" onclick="go('services')">${L==='en'?'← Services':'← 서비스 목록'}</button>
+    <span class="ey eyW">${s.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:14px">${s.title}</h1>
+    <p class="sub subW" style="margin-bottom:22px">${s.sub}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">${s.tags.map(t=>`<span class="tg tw">${t}</span>`).join('')}</div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${s.currT}</span>
+      <h2 class="hd2">${L==='en'?'Life-stage financial safety curriculum':'생애주기별 금융안전 교육 커리큘럼'}</h2>
+    </div>
+    <div>
+      ${s.curr.map(lv=>`
+      <div class="clevel">
+        <div class="clhd"><span class="clbdg">${lv.badge}</span><span class="clnm">${lv.name}</span></div>
+        <div class="clmods">
+          ${lv.mods.map(m=>`<div class="clmod"><div class="clmn">${m.n}</div><div class="clmt">${m.t}</div><div class="clmd">⏱ ${m.d}</div></div>`).join('')}
+        </div>
+      </div>`).join('')}
+    </div>
+    <div style="margin-top:28px;background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:16px;padding:20px 24px;display:flex;flex-wrap:wrap;gap:24px">
+      <div><div style="font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue);margin-bottom:5px">DURATION</div><div style="font-size:14px;font-weight:700;color:var(--ink)">${L==='en'?'2-hr lecture / 4-wk course / 8-wk package':'2시간 특강 / 4주 코스 / 8주 패키지'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue);margin-bottom:5px">FORMAT</div><div style="font-size:14px;font-weight:700;color:var(--ink)">${L==='en'?'Online / Offline / Blended':'온라인 / 오프라인 / 블렌디드'}</div></div>
+      <div><div style="font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue);margin-bottom:5px">ASSESSMENT</div><div style="font-size:14px;font-weight:700;color:var(--ink)">${L==='en'?'Pre/post assessment + completion report':'사전·사후 평가 + 수료 리포트'}</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd">
+      <span class="ey">${s.audsT}</span>
+      <h2 class="hd2">${L==='en'?'Who is this for?':'누구를 위한 교육인가'}</h2>
+    </div>
+    <div class="g4">
+      ${s.auds.map(a=>`<div class="card"><div style="font-size:34px;margin-bottom:13px">${a.ico}</div><h3 style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px">${a.t}</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">${a.d}</p></div>`).join('')}
+    </div>
+    <div style="margin-top:36px">
+      <h3 class="hd3" style="margin-bottom:18px">${s.delivT}</h3>
+      <div class="g4">
+        ${s.delivs.map((dv,i)=>`<div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:10px;align-items:flex-start"><div style="background:var(--blue-l);color:var(--blue);font-size:11px;font-weight:800;padding:3px 9px;border-radius:100px;flex-shrink:0">0${i+1}</div><div style="font-size:13.5px;color:var(--ink2);font-weight:500;line-height:1.5">${dv}</div></div>`).join('')}
+      </div>
+    </div>
+    <div style="margin-top:32px;text-align:center"><button class="bp" onclick="go('contact')">${L==='en'?'Inquire about adoption →':'도입 문의하기 →'}</button></div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="Ws">
+    <div class="hd"><span class="ey">${s.faqT}</span><h2 class="hd2">${L==='en'?'Frequently Asked Questions':'자주 묻는 질문'}</h2></div>
+    ${faqHTML(s.faqs)}
+  </div>
+</section>`;
+}
+
+function pgStudio(){
+  const s=d().svcStudio;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+60px) 0 56px;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 85% 50%,rgba(0,185,107,.12),transparent);pointer-events:none"></div>
+  <div class="W" style="position:relative;z-index:1">
+    <button style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.4);font-size:13px;margin-bottom:16px;font-family:var(--f)" onclick="go('services')">${L==='en'?'← Services':'← 서비스 목록'}</button>
+    <span class="ey eyW">${s.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:14px">${s.title}</h1>
+    <p class="sub subW" style="margin-bottom:22px">${s.sub}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">${s.tags.map(t=>`<span class="tg tw">${t}</span>`).join('')}</div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd"><span class="ey">${s.pkgT}</span><h2 class="hd2">${L==='en'?'Full Campaign Package Suite':'캠페인 패키지 전체 구성'}</h2></div>
+    <div class="pkgr">
+      ${s.pkgs.map(p=>`<div class="pkgc"><div class="pkgico" style="background:${p.bg}">${p.ico}</div><h4>${p.nm}</h4><ul class="pkgl">${p.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd"><span class="ey">${s.procT}</span><h2 class="hd2">${L==='en'?'6-Week Production Process':'6주 제작 프로세스'}</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;background:var(--line);border-radius:20px;overflow:hidden">
+      ${s.procs.map((p,i)=>`
+      <div style="background:${i%2===0?'#fff':'var(--bg)'};padding:22px 18px;text-align:center;border-right:1px solid var(--line)">
+        <div style="width:36px;height:36px;border-radius:50%;background:${i===5?'var(--green)':'var(--blue)'};color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800;margin:0 auto 11px;box-shadow:0 3px 10px rgba(49,130,246,.35)">${p.n}</div>
+        <div style="font-size:13px;font-weight:800;color:var(--ink);margin-bottom:4px">${p.t}</div>
+        <div style="font-size:12px;color:var(--muted)">${p.d}</div>
+      </div>`).join('')}
+    </div>
+    <div style="margin-top:32px;text-align:center"><button class="bp" onclick="go('contact')">${L==='en'?'Inquire about campaigns →':'캠페인 제작 문의하기 →'}</button></div>
+  </div>
+</section>
+
+<section class="secD">
+  <div class="Ws">
+    <h2 class="hd2" style="color:#fff;margin-bottom:32px">${s.faqT}</h2>
+    ${faqHTML(s.faqs,true)}
+  </div>
+</section>`;
+}
+
+/* patch undefined var */
+
+
+function pgDesk(){
+  const s=d().svcDesk;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+60px) 0 56px;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 85% 50%,rgba(124,58,237,.14),transparent);pointer-events:none"></div>
+  <div class="W" style="position:relative;z-index:1">
+    <button style="display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.4);font-size:13px;margin-bottom:16px;font-family:var(--f)" onclick="go('services')">${L==='en'?'← Services':'← 서비스 목록'}</button>
+    <span class="ey eyW">${s.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:14px">${s.title}</h1>
+    <p class="sub subW" style="margin-bottom:22px">${s.sub}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:7px">${s.tags.map(t=>`<span class="tg tw">${t}</span>`).join('')}</div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start">
+      <div>
+        <div class="hd"><span class="ey">${s.rptT}</span><h2 class="hd2">${L==='en'?'Monthly Report Preview':'월간 리포트 미리보기'}</h2></div>
+        <div class="rptmock">
+          <div class="rptmo">${L==='en'?'May 2025 Issue':'2025년 5월호'}</div>
+          <div class="rpttitle">${L==='en'?'Voice Phishing Evolution<br>& Institutional Response':'보이스피싱 수법 진화와<br>기관별 대응 전략'}</div>
+          <div class="rptsecs">
+            ${s.rptSecs.map(rs=>`<div class="rptsc"><span class="rsn">${rs.n}</span><span class="rsnm">${rs.nm}</span><span class="rspg">${rs.pg}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="hd"><span class="ey">${s.catsT}</span><h2 class="hd2">${L==='en'?'4 Intelligence Categories':'4가지 인텔리전스 범주'}</h2></div>
+        <div style="display:grid;gap:14px">
+          ${s.cats.map(c=>`<div class="card" style="display:flex;gap:14px;align-items:flex-start"><div style="font-size:24px;flex-shrink:0">${c.ico}</div><div><div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px">${c.t}</div><div style="font-size:13px;color:var(--muted);line-height:1.65">${c.d}</div></div></div>`).join('')}
+        </div>
+        <div style="margin-top:24px"><button class="bp" onclick="go('contact')">${L==='en'?'Inquire about subscription →':'구독 문의하기 →'}</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="Ws">
+    <div class="hd"><span class="ey">${s.faqT}</span><h2 class="hd2">${L==='en'?'Frequently Asked Questions':'자주 묻는 질문'}</h2></div>
+    ${faqHTML(s.faqs)}
+  </div>
+</section>`;
+}
+
+/* ── CLIENTS ── */
+function pgClients(){
+  const c=d().clients;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${c.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${c.title}</h1>
+    <p class="sub subW">${c.sub}</p>
+  </div>
+</section>
+<section class="secB">
+  <div class="W">
+    <div class="ctabs" id="ctabs">
+      ${c.tabs.map(t=>`<button class="ctab${t.id==='all'?' on':''}" data-type="${t.id}" onclick="filterCli('${t.id}')">${t.l}</button>`).join('')}
+    </div>
+    <div class="clgrid" id="clgrid">
+      ${c.clis.map(cl=>`
+      <div class="clc" data-type="${cl.type}">
+        <div class="clch">
+          <div class="clico" style="background:${cl.bg}">${cl.ico}</div>
+          <div><h3>${cl.nm}</h3><div class="clsub">${cl.sub}</div></div>
+        </div>
+        <div class="clsvcs">${cl.svcs.map(sv=>`<div class="clsi">${sv}</div>`).join('')}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>
+<section class="secD">
+  <div class="W">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center">
+      <div>
+        <h2 class="hd2" style="color:#fff;margin-bottom:14px">${c.modelT}</h2>
+        <p class="sub subW" style="margin-bottom:24px">${c.modelD}</p>
+        <div style="display:grid;gap:12px">
+          ${c.modelItems.map(mi=>`<div class="cdk"><div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">${mi.t}</div><div style="font-size:13px;color:rgba(255,255,255,.5)">${mi.d}</div></div>`).join('')}
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:36px">
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+          <div style="background:rgba(49,130,246,.15);border:1px solid rgba(49,130,246,.28);border-radius:14px;padding:12px 24px;font-size:14px;font-weight:700;color:#93c5fd;text-align:center;width:100%">${L==='en'?'🏦 Banks · 💳 Fintechs · 🏛 Public Orgs · 🎓 Education':'🏦 은행 · 💳 핀테크 · 🏛 공공기관 · 🎓 교육기관'}</div>
+          <div style="font-size:22px;color:rgba(255,255,255,.25)">${L==='en'?'↓ Commission & Contract':'↓ 의뢰 및 계약'}</div>
+          <div style="background:rgba(0,185,107,.12);border:1px solid rgba(0,185,107,.25);border-radius:14px;padding:14px 24px;font-size:15px;font-weight:800;color:#6ee7b7;text-align:center;width:100%">TRUSTORY LABS<br><span style="font-size:12px;opacity:.7;font-weight:500">${L==='en'?'Content · Education · Campaigns · Intelligence':'콘텐츠 · 교육 · 캠페인 · 인텔리전스'}</span></div>
+          <div style="font-size:22px;color:rgba(255,255,255,.25)">${L==='en'?'↓ Deliver & Distribute':'↓ 제공 및 배포'}</div>
+          <div style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);border-radius:14px;padding:12px 24px;font-size:14px;font-weight:700;color:#fcd34d;text-align:center;width:100%">${L==='en'?'👥 Citizens & Financial Users<br><span style="font-size:12px;opacity:.7;font-weight:500">Understanding · Prevention</span>':'👥 시민 & 금융 이용자<br><span style="font-size:12px;opacity:.7;font-weight:500">이해도 향상 · 피해 예방</span>'}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── CAREERS HUB ── */
+function pgCareers(){
+  const c=d().careers;
+  return `
+<section class="chero">
+  <div class="W chi">
+    <span class="ey eyW">${c.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${c.title}</h1>
+    <p class="sub subW" style="margin-bottom:32px">${c.sub}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px">
+      <button class="bp" onclick="go('jobs')">${c.c1} →</button>
+      <button class="bs" onclick="go('process')">${c.c2}</button>
+    </div>
+    <div class="cqls">
+      ${c.qls.map(q=>`<div class="cql" onclick="go('${q.r}')"><div class="cqlico">${q.ico}</div><div class="cqlt">${q.t}</div><div class="cqld">${q.d}</div><div class="cqla">${L==='en'?'View →':'보기 →'}</div></div>`).join('')}
+    </div>
+  </div>
+  <div class="cnums"><div class="W cnumgrid">
+    ${c.nums.map(n=>`<div class="cnumi"><div class="cnumv">${n.v}<em>${n.u}</em></div><div class="cnuml">${n.l}</div></div>`).join('')}
+  </div></div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd"><span class="ey">${c.whyT}</span><h2 class="hd2">${L==='en'?'Why join this team':'이 팀에 합류해야 하는 이유'}</h2></div>
+    <div class="g3">
+      ${c.whys.map(w=>`<div class="card"><div style="font-size:30px;margin-bottom:14px">${w.ico}</div><h3 style="font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px">${w.t}</h3><p style="font-size:13.5px;color:var(--muted);line-height:1.75">${w.d}</p></div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="secD">
+  <div class="W">
+    <div class="hd"><span class="ey eyW">TEAM</span><h2 class="hd2" style="color:#fff">${L==='en'?'5 roles. One mission.':'5개 직무, 하나의 미션'}</h2></div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+      ${[
+        {ico:'💼',dept:'Finance & Strategy',r:'job/fin'},
+        {ico:'📣',dept:'Marketing',r:'job/mkt'},
+        {ico:'✍️',dept:'Publishing',r:'job/pr'},
+        {ico:'🚔',dept:'Safety & Advisory',r:'job/sec'},
+        {ico:'🎰',dept:'Risk & Compliance',r:'job/rsk'}
+      ].map(tm=>`<div class="cdk" style="text-align:center;cursor:pointer" onclick="go('${tm.r}')"><div style="font-size:28px;margin-bottom:12px">${tm.ico}</div><div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:6px">${tm.dept}</div><div style="font-size:12px;color:rgba(255,255,255,.4)">${L==='en'?'View role →':'포지션 보기 →'}</div></div>`).join('')}
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── CULTURE ── */
+function pgCulture(){
+  const c=d().culture;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${c.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:18px">${c.title}</h1>
+    <p class="sub subW">${c.sub}</p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd"><span class="ey">Core Values</span><h2 class="hd2">${L==='en'?'Values we share':'우리가 공유하는 가치'}</h2></div>
+    <div class="cv4">
+      ${c.vals.map(v=>`<div class="cvc"><div class="cvcn">${v.n}</div><div class="cvcico">${v.ico}</div><h3>${v.t}</h3><p>${v.d}</p></div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd"><span class="ey">${c.dayT}</span><h2 class="hd2">${c.dayD}</h2></div>
+    <div class="daygrid">
+      ${c.days.map(day=>`<div class="dayc"><div class="dayt">${day.t}</div><div><div class="dayh">${day.h}</div><div class="dayp">${day.p}</div></div></div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd"><span class="ey">${c.envT}</span><h2 class="hd2">${L==='en'?'Work Environment':'근무 환경'}</h2></div>
+    <div class="g4">
+      ${c.envs.map(e=>`<div class="card"><div style="font-size:28px;margin-bottom:13px">${e.ico}</div><h3 style="font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px">${e.t}</h3><p style="font-size:13px;color:var(--muted);line-height:1.7">${e.d}</p></div>`).join('')}
+    </div>
+    <div style="margin-top:32px;text-align:center"><button class="bp" onclick="go('jobs')">${L==='en'?'View Open Roles →':'채용 공고 보기 →'}</button></div>
+  </div>
+</section>`;
+}
+
+/* ── BENEFITS ── */
+function pgBenefits(){
+  const b=d().benefits;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${b.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${b.title}</h1>
+    <p class="sub subW">${b.sub}</p>
+  </div>
+</section>
+<section class="secB">
+  <div class="W">
+    ${b.cats.map(cat=>`
+    <div class="bencat">
+      <div class="bchead">
+        <div class="bchico" style="background:${cat.bg}">${cat.ico}</div>
+        <div><div class="bcht">${cat.t}</div><div class="bchd">${cat.d}</div></div>
+      </div>
+      <div class="bigrid">
+        ${cat.items.map(item=>`<div class="bi"><div class="biic" style="background:${cat.ibg};color:${cat.icol}">${item.ic}</div><div><div class="bit">${item.t}</div><div class="bid">${item.d}</div></div></div>`).join('')}
+      </div>
+    </div>`).join('')}
+  </div>
+</section>`;
+}
+
+/* ── PROCESS ── */
+function pgProcess(){
+  const p=d().process;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${p.badge}</span>
+    <h1 class="hd1" style="color:#fff;white-space:pre-line;margin-bottom:18px">${p.title}</h1>
+    <p class="sub subW">${p.sub}</p>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd"><span class="ey">${L==='en'?'Hiring Steps':'전형 단계'}</span><h2 class="hd2">${L==='en'?'6-Step Transparent Hiring Process':'6단계 투명 채용 프로세스'}</h2></div>
+    <div style="position:relative">
+      <div class="step-line"></div>
+      <div class="stepper">
+        ${p.steps.map(s=>`
+        <div class="stepitem">
+          <div class="stepcirc${s.done?' done':''}">${s.n}</div>
+          <div class="stepnm">${s.t}</div>
+          <div class="stepsd">${s.d}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="W">
+    <div class="hd"><span class="ey">${p.detT}</span><h2 class="hd2">${L==='en'?'Step-by-step guide':'단계별 상세 안내'}</h2></div>
+    <div class="pdgrid">
+      ${p.dets.map(det=>`
+      <div class="pdc${det.done?' done':''}">
+        <div class="pdn">${det.n}</div>
+        <h3>${det.t}</h3>
+        <p>${det.p}</p>
+        <div class="pdtip">${det.tip}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="secB">
+  <div class="W">
+    <div class="hd"><span class="ey">${p.fairT}</span><h2 class="hd2">${L==='en'?'Fair Hiring Principles':'공정 채용 원칙'}</h2></div>
+    <div class="fairgrid">
+      ${p.fairs.map(f=>`<div class="fairc"><div class="ico">${f.ico}</div><h4>${f.t}</h4><p>${f.p}</p></div>`).join('')}
+    </div>
+  </div>
+</section>
+
+<section class="secD">
+  <div class="Ws">
+    <h2 class="hd2" style="color:#fff;margin-bottom:32px">${p.faqT}</h2>
+    ${faqHTML(p.faqs,true)}
+  </div>
+</section>`;
+}
+
+/* ── JOBS ── */
+function pgJobs(){
+  const j=d().jobs;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+64px) 0 52px">
+  <div class="W">
+    <span class="ey eyW">${j.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:14px">${j.title}</h1>
+    <p class="sub subW">${j.sub}</p>
+  </div>
+</section>
+<section class="secB" style="padding-top:36px">
+  <div class="W">
+    <div class="jlayout">
+      <div class="jfpanel">
+        <div class="jft">${j.ftit}</div>
+        <div class="jfg">
+          <div class="jfgl">${j.fdept}</div>
+          ${j.depts.map(dep=>`<label class="jfr"><input type="radio" name="jdept" value="${dep}"${dep===j.depts[0]?' checked':''}><label>${dep}</label><span class="jfc">${dep===j.depts[0]?j.list.length:j.list.filter(jb=>jb.dept===dep).length}</span></label>`).join('')}
+        </div>
+        <div class="jfg">
+          <div class="jfgl">${j.ftype}</div>
+          ${j.types.map(tp=>`<label class="jfr"><input type="radio" name="jtype" value="${tp}"${tp===j.types[0]?' checked':''}><label>${tp}</label></label>`).join('')}
+        </div>
+        <button class="jfrst" onclick="resetFilter()">${j.rst}</button>
+      </div>
+      <div>
+        <div class="jhd">
+          <div class="jcnt" id="jcnt"><strong>${j.list.length}</strong>${L==='en'?' positions':'개 포지션'}</div>
+        </div>
+        <div id="jlist">
+          ${j.list.map(jb=>jobCard(jb)).join('')}
+          <div class="nores" id="nores" style="display:none">
+            <div style="font-size:36px;margin-bottom:14px">🔍</div>
+            <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:6px">${j.noR}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+function jobCard(jb){
+  return `<div class="jcard" data-dept="${jb.dept}" data-type="${jb.type}" data-exp="${jb.exp}" onclick="go('job/${jb.id}')">
+    <div>
+      <div class="jcdept">${jb.dept}</div>
+      <div class="jctitle">${jb.title}</div>
+      <div class="jctags">${tagsHTML(jb.tags)}</div>
+      <div class="jcdesc">${jb.desc}</div>
+    </div>
+    <div class="jcarr">→</div>
+  </div>`;
+}
+function bindFilter(){
+  document.querySelectorAll('input[name="jdept"],input[name="jtype"]').forEach(inp=>inp.addEventListener('change',filterJobs));
+}
+function filterJobs(){
+  const dept=document.querySelector('input[name="jdept"]:checked')?.value||d().jobs.depts[0];
+  const type=document.querySelector('input[name="jtype"]:checked')?.value||d().jobs.types[0];
+  const j=d().jobs;
+  let count=0;
+  document.querySelectorAll('.jcard').forEach(c=>{
+    const dm=dept===j.depts[0]||c.dataset.dept===dept;
+    const tm=type===j.types[0]||c.dataset.type===type;
+    c.style.display=(dm&&tm)?'':'none';
+    if(dm&&tm)count++;
+  });
+  const nr=document.getElementById('nores');
+  if(nr)nr.style.display=count===0?'block':'none';
+  const cnt=document.getElementById('jcnt');
+  if(cnt)cnt.innerHTML=`<strong>${count}</strong>${L==='en'?' positions':'개 포지션'}`;
+}
+function resetFilter(){
+  document.querySelectorAll('input[name="jdept"]').forEach((r,i)=>{r.checked=i===0});
+  document.querySelectorAll('input[name="jtype"]').forEach((r,i)=>{r.checked=i===0});
+  filterJobs();
+}
+
+/* ── JOB DETAIL ── */
+function pgJobDetail(id){
+  const jd=d().jds[id];
+  if(!jd)return pgJobs();
+  const lbl=d().jdInfoL;
+  return `
+<section class="jdhero">
+  <div class="W" style="position:relative;z-index:1">
+    <div class="bc">
+      <button onclick="go('careers')">${L==='en'?'Careers':'채용'}</button><span>›</span>
+      <button onclick="go('jobs')">${L==='en'?'Open Roles':'채용공고'}</button><span>›</span>
+      <span style="color:rgba(255,255,255,.7)">${jd.title}</span>
+    </div>
+    <div class="jddept">${jd.dept}</div>
+    <h1 class="jdttl">${jd.title}</h1>
+    <div class="jdtr">${jd.tags.map(t=>`<span class="jdtag">${t}</span>`).join('')}</div>
+    <button class="jdbtn" onclick="go('apply/${id}')">${d().jdApplyBtn} →</button>
+  </div>
+</section>
+
+<section class="jdbody">
+  <div class="W jdlayout">
+    <div>
+      <div class="jdsec">
+        <h3>${L==='en'?'Role Summary':'직무 요약'}</h3>
+        <p>${jd.sum}</p>
+      </div>
+      <div class="jdsec">
+        <h3>${L==='en'?'Key Responsibilities':'주요 업무'}</h3>
+        <ul class="jdul">${jd.resps.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>
+      <div class="jdsec">
+        <h3>${L==='en'?'Qualifications':'자격 요건'}</h3>
+        <ul class="jdul">${jd.quals.map(q=>`<li>${q}</li>`).join('')}</ul>
+      </div>
+      <div class="jdsec">
+        <h3>${L==='en'?'Application Process':'전형 절차'}</h3>
+        <p>${jd.proc}</p>
+      </div>
+    </div>
+    <div>
+      <div class="jdsb">
+        <h4>${d().jdInfoT}</h4>
+        <div class="jdr"><span class="jdk">${lbl.loc}</span><span class="jdv">${jd.info.loc}</span></div>
+        <div class="jdr"><span class="jdk">${lbl.type}</span><span class="jdv">${jd.info.type}</span></div>
+        <div class="jdr"><span class="jdk">${lbl.exp}</span><span class="jdv">${jd.info.exp}</span></div>
+        <div class="jdr"><span class="jdk">${lbl.sal}</span><span class="jdv">${jd.info.sal}</span></div>
+        <div class="jdr"><span class="jdk">${lbl.dl}</span><span class="jdv">${jd.info.dl}</span></div>
+        <div class="jdr"><span class="jdk">${lbl.team}</span><span class="jdv">${jd.info.team}</span></div>
+      </div>
+      <div class="jdacard">
+        <p>${d().jdApplyCard}</p>
+        <button class="jdafull" onclick="go('apply/${id}')">${d().jdApplyBtn} →</button>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+/* ── APPLY ── */
+function pgApply(id){
+  const jd=d().jds[id];
+  if(!jd)return pgJobs();
+  const lbl=d().jdInfoL;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+60px) 0 56px">
+  <div class="W">
+    <div class="bc">
+      <button onclick="go('job/${id}')">${L==='en'?'← Job Detail':'← 직무 상세'}</button>
+    </div>
+    <span class="ey eyW">APPLY</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:12px">${jd.title}</h1>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px">${jd.tags.map(t=>`<span class="tg tw">${t}</span>`).join('')}</div>
+  </div>
+</section>
+
+<section class="appbody">
+  <div class="W">
+    <div class="applayout">
+      <div class="appform">
+        <div class="afsec">
+          <div class="afst"><span>${L==='en'?'Basic Information':'기본 정보'}</span><span class="afsbdg">${L==='en'?'Required':'필수'}</span></div>
+          <div class="frow2">
+            <div class="fg"><label class="fl">${L==='en'?'Full Name':'이름'}<span class="fr">*</span></label><input class="fi" id="apName" placeholder="${L==='en'?'Your full name':'성함을 입력하세요'}"></div>
+            <div class="fg"><label class="fl">${L==='en'?'Email':'이메일'}<span class="fr">*</span></label><input class="fi" id="apEmail" type="email" placeholder="${L==='en'?'your@email.com':'이메일 주소'}"></div>
+          </div>
+          <div class="frow2">
+            <div class="fg"><label class="fl">${L==='en'?'Phone':'연락처'}</label><input class="fi" id="apPhone" placeholder="${L==='en'?'010-0000-0000 (optional)':'010-0000-0000 (선택)'}"></div>
+            <div class="fg"><label class="fl">${L==='en'?'Applied Role':'지원 직무'}</label><input class="fi" value="${jd.title}" readonly style="background:var(--bg)"></div>
+          </div>
+          <div class="fg"><label class="fl">${L==='en'?'Experience Level':'경력 수준'}<span class="fr">*</span></label>
+            <select class="fsel" id="apLevel">
+              <option value="">${L==='en'?'Select experience level':'경력 수준을 선택하세요'}</option>
+              <option>${L==='en'?'Entry-level (0 yrs)':'신입 (0년)'}</option><option>${L==='en'?'Junior (1–3 yrs)':'주니어 (1–3년)'}</option>
+              <option>${L==='en'?'Mid-level (3–5 yrs)':'미들 (3–5년)'}</option><option>${L==='en'?'Senior (5+ yrs)':'시니어 (5년+)'}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="afsec">
+          <div class="afst"><span>${L==='en'?'Document Links':'서류 링크'}</span><span class="afsbdg" style="background:var(--bg);color:var(--muted)">${L==='en'?'Optional':'선택'}</span></div>
+          <div class="fg"><label class="fl">${L==='en'?'Resume Link':'이력서 링크'}</label><input class="fi" id="apResume" placeholder="${L==='en'?'Google Drive / Notion / LinkedIn URL':'구글드라이브 / 노션 / LinkedIn URL'}"></div>
+          <div class="fg"><label class="fl">${L==='en'?'Portfolio Link':'포트폴리오 링크'}</label><input class="fi" id="apPortfolio" placeholder="${L==='en'?'Recommended for Marketing & PR roles (optional)':'마케팅·PR 직무 권장 (선택 사항)'}"></div>
+        </div>
+
+        <div class="afsec">
+          <div class="afst"><span>${L==='en'?'Application Note':'지원 메모'}</span><span class="afsbdg" style="background:var(--bg);color:var(--muted)">${L==='en'?'Optional':'선택'}</span></div>
+          <div class="fg"><label class="fl">${L==='en'?'Why are you applying for this role?':'왜 이 포지션에 지원하시나요?'}</label>
+            <textarea class="fta" id="apNote" placeholder="${L==='en'?'Share your motivation or relevant experience (up to 500 chars)':'직무와 연결되는 경험이나 동기를 자유롭게 작성해주세요 (500자 이내)'}"></textarea>
+          </div>
+        </div>
+
+        <div class="afsec">
+          <div class="afst"><span>${L==='en'?'Privacy Consent':'개인정보 동의'}</span></div>
+          <div class="ainotice">📌 ${L==='en'?'Your information is used solely for recruitment and deleted after the hiring cycle per applicable law.':'제출하신 정보는 채용 선발 목적으로만 사용되며, 채용 종료 후 관련 법령에 따라 파기됩니다.'}</div>
+          <div class="fcheck"><input type="checkbox" id="chkPrivacy"><label for="chkPrivacy">[${L==='en'?'Required':'필수'}] ${d().consentTxt}</label></div>
+          <div class="fcheck"><input type="checkbox" id="chkDoc"><label for="chkDoc">[${L==='en'?'Required':'필수'}] ${d().docConsentTxt}</label></div>
+          <div class="fcheck"><input type="checkbox" id="chkMkt"><label for="chkMkt">${L==='en'?'[Optional] I would like to receive recruiting news by email':'[선택] 채용 관련 소식 및 안내를 이메일로 수신합니다'}</label></div>
+        </div>
+
+        <button class="fsub" id="apSubmit" onclick="submitApply()">${d().submitApp}</button>
+      </div>
+
+      <div class="appinfo">
+        <div class="aicard">
+          <h4>${L==='en'?'Before You Apply':'지원 전 체크'}</h4>
+          <div class="air"><span class="airk">${L==='en'?'Applied Role':'지원 직무'}</span><span class="airv">${jd.title}</span></div>
+          <div class="air"><span class="airk">${lbl.loc}</span><span class="airv">${jd.info.loc}</span></div>
+          <div class="air"><span class="airk">${lbl.type}</span><span class="airv">${jd.info.type}</span></div>
+          <div class="air"><span class="airk">${lbl.exp}</span><span class="airv">${jd.info.exp}</span></div>
+          <div class="air"><span class="airk">${L==='en'?'Required':'필수 항목'}</span><span class="airv">${L==='en'?'Name · Email · Experience':'이름 · 이메일 · 경력 수준'}</span></div>
+          <div class="air"><span class="airk">${L==='en'?'Optional':'선택 항목'}</span><span class="airv">${L==='en'?'Phone · Resume · Portfolio':'연락처 · 이력서 · 포트폴리오'}</span></div>
+          <div class="air"><span class="airk">${L==='en'?'Next Step':'다음 단계'}</span><span class="airv">${L==='en'?'Stage updates after review':'접수 확인 후 단계별 안내'}</span></div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-xl);padding:22px;box-shadow:var(--sh)">
+          <h4 style="font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">${L==='en'?'Hiring Process':'전형 절차'}</h4>
+          <p style="font-size:13px;color:var(--muted);line-height:1.75">${jd.proc}</p>
+        </div>
+        <div style="margin-top:14px;background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:14px;padding:16px">
+          <div style="font-size:12.5px;color:var(--blue-d);line-height:1.65">${L==='en'?'📩 Careers: ':'📩 채용 문의: '}<strong>careers@trustorylabs.com</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`;
+}
+
+function submitApply(){
+  const priv=document.getElementById('chkPrivacy');
+  const doc=document.getElementById('chkDoc');
+  if(!priv?.checked||!doc?.checked){
+    alert(L==='en'?'Please check all required consent boxes.':'필수 동의 항목을 체크해주세요.');return;
+  }
+  const btn=document.getElementById('apSubmit');
+  if(btn){btn.textContent=d().submitSent;btn.classList.add('sent');btn.disabled=true;}
+}
+
+/* ── CONTACT ── */
+function pgContact(){
+  const c=d().contact;
+  return `
+<section style="background:#0c1321;padding:calc(var(--nh)+70px) 0 70px">
+  <div class="W">
+    <span class="ey eyW">${c.badge}</span>
+    <h1 class="hd1" style="color:#fff;margin-bottom:18px">${c.title}</h1>
+    <p class="sub subW">${c.sub}</p>
+  </div>
+</section>
+<section class="secB">
+  <div class="W conlay">
+    <div>
+      <h2 class="hd2" style="margin-bottom:24px">${L==='en'?'Contact Info':'연락처 정보'}</h2>
+      ${c.dets.map(cd=>`<div class="codet"><div class="coico">${cd.ico}</div><div><div class="col">${cd.l}</div><div class="cov">${cd.v}</div></div></div>`).join('')}
+      <div style="background:var(--blue-ll);border:1px solid var(--blue-l);border-radius:14px;padding:16px;margin-top:20px;font-size:13px;color:var(--blue-d);line-height:1.65">📍 ${L==='en'?'Central Seoul (full address provided upon hire)':'서울특별시 강남구 테헤란로 (상세 주소는 입사 확정 후 안내)'}</div>
+    </div>
+    <div class="confw">
+      <h3 style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:8px">${c.fmT}</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:24px">${c.fmS}</p>
+      <div class="frow2">
+        <div class="fg"><label class="fl">${c.fl[0]}</label><input class="fi" placeholder="${c.fp[0]}"></div>
+        <div class="fg"><label class="fl">${c.fl[1]}</label><input class="fi" type="email" placeholder="${c.fp[1]}"></div>
+      </div>
+      <div class="fg"><label class="fl">${c.fl[2]}</label>
+        <select class="fsel">
+          <option value="">${c.fp[2]}</option>
+          ${c.ftypes.map(tp=>`<option>${tp}</option>`).join('')}
+        </select>
+      </div>
+      <div class="fg"><label class="fl">${c.fl[3]}</label><textarea class="fta" placeholder="${c.fp[3]}"></textarea></div>
+      <button class="fsub" id="conSub" onclick="submitCon()">${c.fl[4]}</button>
+    </div>
+  </div>
+</section>`;
+}
+function submitCon(){
+  const btn=document.getElementById('conSub');
+  if(btn){btn.textContent=d().contact.sent;btn.classList.add('sent');btn.disabled=true;}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+function renderFooter(){
+  const f=d().ft;
+  document.getElementById('footer').innerHTML=`
+<div class="W">
+  <div class="ftop">
+    <div>
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer" onclick="go('home')">
+        <div class="bmark"><svg viewBox="0 0 40 40" fill="none"><path d="M12 14c0-4 3.5-7 8-7s8 3 8 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/><path d="M12 17h16v8c0 5.5-3.5 9-8 9s-8-3.5-8-9v-8z" fill="white"/><line x1="20" y1="12" x2="20" y2="30" stroke="#3182f6" stroke-width="2.5" stroke-linecap="round"/><polyline points="16,22 20,17 24,22" stroke="#3182f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="ftnm">TRUSTORY LABS</div>
+      </div>
+      <div class="fttg">${f.tagline}</div>
+    </div>
+    <div class="ftcols">
+      ${f.cols.map(col=>`<div class="ftcol"><h5>${col.h}</h5>${col.lk.map(lk=>`<a onclick="go('${lk.r}')">${lk.l}</a>`).join('')}</div>`).join('')}
+    </div>
+  </div>
+  <div class="ftbot">
+    <div class="ftcp">${f.copy}</div>
+    <div class="ftdc">${f.disc}</div>
+  </div>
+</div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CLIENT FILTER
+═══════════════════════════════════════════════════════════ */
+function filterCli(type){
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.toggle('on',t.dataset.type===type));
+  document.querySelectorAll('.clc').forEach(c=>{c.style.display=(type==='all'||c.dataset.type===type)?'':'none'});
+}
+</script>
+</body>
+</html>
